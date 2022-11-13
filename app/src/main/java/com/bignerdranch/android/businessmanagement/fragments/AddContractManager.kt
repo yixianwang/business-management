@@ -30,6 +30,8 @@ class AddContractManager : AppCompatActivity() {
                 binding.etName.text.toString(),
                 binding.etPhone.text.toString()
             )
+            Log.d(javaClass.simpleName, "Added to firebase succeessfully")
+            finish()
         }
 
         binding.cancelButton.setOnClickListener {

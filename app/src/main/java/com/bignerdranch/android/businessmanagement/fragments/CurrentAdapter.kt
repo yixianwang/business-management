@@ -31,13 +31,27 @@ class CurrentAdapter(private val viewModel: MainViewModel)
         }
     }
 
-    inner class VH(val rowCurrentBinding: RowCurrentBinding) : RecyclerView.ViewHolder(rowCurrentBinding.root)
+    inner class VH(val rowCurrentBinding: RowCurrentBinding) : RecyclerView.ViewHolder(rowCurrentBinding.root) {
+        fun bind(holder: VH, position: Int) {
+            val contract = getItem(position)
+            val binding = holder.rowCurrentBinding
+            binding.tvTitle.text = contract.title
+            binding.tvLocation.text = contract.location
+            binding.tvRent.text = contract.rent
+            binding.tvStart.text = contract.start
+            binding.tvEnd.text = contract.end
+            binding.tvDuration.text = contract.duration
+            binding.tvNote.text = contract.note
+            binding.tvName.text = contract.name
+            binding.tvPhone.text = contract.phone
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(RowCurrentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val contract = getItem(position)
+        holder.bind(holder, position)
     }
 }

@@ -3,12 +3,15 @@ package com.bignerdranch.android.businessmanagement
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.bignerdranch.android.businessmanagement.databinding.ActivityMainBinding
 import com.bignerdranch.android.businessmanagement.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,6 +38,8 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        viewModel.fetchContract()
     }
 
     private fun changeFragment(fragment: Fragment) =

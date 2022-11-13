@@ -1,5 +1,6 @@
 package com.bignerdranch.android.businessmanagement
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.businessmanagement.model.Contract
@@ -17,7 +18,7 @@ class MainViewModel: ViewModel() {
                         note: String,
                         name: String,
                         phone: String) {
-        val photoMeta = Contract(
+        val contract = Contract(
             title = title,
             location = location,
             rent = rent,
@@ -28,7 +29,15 @@ class MainViewModel: ViewModel() {
             name = name,
             phone = phone
         )
-        dbHelp.createPhotoMeta(photoMeta, contractList)
+        dbHelp.createContract(contract, contractList)
+    }
+
+    fun fetchContract() {
+        dbHelp.fetchContract(contractList)
+    }
+
+    fun observeContractList(): LiveData<List<Contract>> {
+        return contractList
     }
 
 }

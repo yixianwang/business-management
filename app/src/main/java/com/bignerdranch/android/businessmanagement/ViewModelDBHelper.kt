@@ -4,16 +4,16 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.businessmanagement.model.Contract
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class ViewModelDBHelper() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val allContracts = "allContracts"
+    private val allAppointments = "allAppointments"
 
     /////////////////////////////////////////////////////////////
     // Interact with Firestore db
     // https://firebase.google.com/docs/firestore/query-data/order-limit-data
-    private fun dbFetchPhotoMeta(contractList: MutableLiveData<List<Contract>>) {
+    private fun dbFetchContract(contractList: MutableLiveData<List<Contract>>) {
         db.collection(allContracts)
             .get()
             .addOnSuccessListener { result ->
@@ -28,8 +28,12 @@ class ViewModelDBHelper() {
             }
     }
 
+    fun fetchContract(contractList: MutableLiveData<List<Contract>>) {
+        dbFetchContract(contractList)
+    }
+
     // https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
-    fun createPhotoMeta(
+    fun createContract(
         contract: Contract,
         contractList: MutableLiveData<List<Contract>>
     ) {
@@ -38,7 +42,7 @@ class ViewModelDBHelper() {
         db.collection(allContracts)
             .add(contract)
             .addOnSuccessListener {
-                dbFetchPhotoMeta(contractList)
+                dbFetchContract(contractList)
             }
             .addOnFailureListener {
                 Log.d(javaClass.simpleName, "fail create")
