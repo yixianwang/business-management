@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "708788200800",
+    "project_id": "businessmanagement-38fed",
+    "storage_bucket": "businessmanagement-38fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708788200800:android:6aaa9c619f0d9adae16a05",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.android.businessmanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708788200800-n5hjl71cobg94slhm1r2gcht1ebch7t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.android.businessmanagement",
+            "certificate_hash": "11a43763aba49c03b7742caa720c569fe6567880"
+          }
+        },
+        {
+          "client_id": "708788200800-ej7uc144ap2hv268bimhu4bh6squg74m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJfVBA3kmlUCKTzKdETGERVQcU1vfpFlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708788200800-ej7uc144ap2hv268bimhu4bh6squg74m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
