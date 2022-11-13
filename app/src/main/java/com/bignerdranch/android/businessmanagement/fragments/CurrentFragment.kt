@@ -1,60 +1,77 @@
 package com.bignerdranch.android.businessmanagement.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import com.bignerdranch.android.businessmanagement.R
+import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CurrentFragment : Fragment(R.layout.fragment_current) {
+    companion object {
+        const val titleKey = "titleKey"
+        const val locationKey = "locationKey"
+        const val rentKey = "rentKey"
+        const val startKey = "startKey"
+        const val endKey = "endKey"
+        const val durationKey = "durationKey"
+        const val noteKey = "noteKey"
+        const val nameKey = "nameKey"
+        const val phoneKey = "phoneKey"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CurrentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CurrentFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        fun newInstance() : CurrentFragment {
+            return CurrentFragment()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current, container, false)
+    // This property is only valid between onCreateView and onDestroyView.
+    private var _binding: FragmentCurrentBinding? = null
+
+    private val binding get() = _binding!!
+
+    private var resultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                onLoopMode = result.data!!.getBooleanExtra(onLoopModeKey, onLoopMode)
+                Log.d("XXX result from setting", "$onLoopMode")
+
+                if (onLoopMode) {
+                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.red, this.theme))
+                } else {
+                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.transparent, this.theme))
+                }
+                player.isLooping = onLoopMode
+
+            } else {
+                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
+            }
+        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCurrentBinding.bind(view)
+
+        binding.currentAddBut.setOnClickListener {
+            val addContractIntent = Intent(this, SettingsManager::class.java)
+            val myExtra = Bundle()
+
+            myExtra.putString(playedCountKey, playedCount)
+            myExtra.putString(onLoopModeKey, onLoopMode)
+            addContractIntent.putExtras(myExtra)
+            resultLauncher.launch(addContractIntent)
+        }
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CurrentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CurrentFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
