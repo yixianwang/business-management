@@ -5,30 +5,37 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bignerdranch.android.businessmanagement.MainViewModel
+import androidx.activity.viewModels
+import com.bignerdranch.android.businessmanagement.databinding.ActivityAddContractBinding
+import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
 
 class AddContractManager : AppCompatActivity() {
-    private var resultLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                onLoopMode = result.data!!.getBooleanExtra(onLoopModeKey, onLoopMode)
-                Log.d("XXX result from setting", "$onLoopMode")
-
-                if (onLoopMode) {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.red, this.theme))
-                } else {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.transparent, this.theme))
-                }
-                player.isLooping = onLoopMode
-
-            } else {
-                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
-            }
-        }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityAddContractBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.okButton.setOnClickListener {
+            viewModel.addNewContract(
+                binding.etTitle.text.toString(),
+                binding.etLocation.text.toString(),
+                binding.etRent.text.toString(),
+                binding.etStart.text.toString(),
+                binding.etEnd.text.toString(),
+                binding.etDuration.text.toString(),
+                binding.etNote.text.toString(),
+                binding.etName.text.toString(),
+                binding.etPhone.text.toString()
+            )
+        }
+
+        binding.cancelButton.setOnClickListener {
+            finish()
+        }
+
 
     }
 }

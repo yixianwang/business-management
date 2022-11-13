@@ -6,6 +6,7 @@ import com.bignerdranch.android.businessmanagement.model.Contract
 
 class MainViewModel: ViewModel() {
     private var contractList = MutableLiveData<List<Contract>>()
+    private val dbHelp = ViewModelDBHelper()
 
     fun addNewContract(title: String,
                         location: String,
@@ -16,7 +17,18 @@ class MainViewModel: ViewModel() {
                         note: String,
                         name: String,
                         phone: String) {
-        contractList.
+        val photoMeta = Contract(
+            title = title,
+            location = location,
+            rent = rent,
+            start = start,
+            end = end,
+            duration = duration,
+            note = note,
+            name = name,
+            phone = phone
+        )
+        dbHelp.createPhotoMeta(photoMeta, contractList)
     }
 
 }

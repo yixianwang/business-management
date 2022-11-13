@@ -34,38 +34,39 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
 
     private val binding get() = _binding!!
 
-    private var resultLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                onLoopMode = result.data!!.getBooleanExtra(onLoopModeKey, onLoopMode)
-                Log.d("XXX result from setting", "$onLoopMode")
-
-                if (onLoopMode) {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.red, this.theme))
-                } else {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.transparent, this.theme))
-                }
-                player.isLooping = onLoopMode
-
-            } else {
-                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
-            }
-        }
+//    private var resultLauncher =
+//        registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                onLoopMode = result.data!!.getBooleanExtra(onLoopModeKey, onLoopMode)
+//                Log.d("XXX result from setting", "$onLoopMode")
+//
+//                if (onLoopMode) {
+//                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.red, this.theme))
+//                } else {
+//                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.transparent, this.theme))
+//                }
+//                player.isLooping = onLoopMode
+//
+//            } else {
+//                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
+//            }
+//        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCurrentBinding.bind(view)
 
         binding.currentAddBut.setOnClickListener {
-            val addContractIntent = Intent(this, SettingsManager::class.java)
-            val myExtra = Bundle()
-
-            myExtra.putString(playedCountKey, playedCount)
-            myExtra.putString(onLoopModeKey, onLoopMode)
-            addContractIntent.putExtras(myExtra)
-            resultLauncher.launch(addContractIntent)
+            val addContractIntent = Intent(context, AddContractManager::class.java)
+//            val myExtra = Bundle()
+//
+//            myExtra.putString(playedCountKey, playedCount)
+//            myExtra.putString(onLoopModeKey, onLoopMode)
+//            addContractIntent.putExtras(myExtra)
+//            resultLauncher.launch(addContractIntent)
+            startActivity(addContractIntent)
         }
 
     }
