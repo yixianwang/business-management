@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -44,28 +46,7 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-//                val title = result.data!!.getStringExtra(titleKey)
-//                val location = result.data!!.getStringExtra(locationKey)
-//                val rent = result.data!!.getStringExtra(rentKey)
-//                val start = result.data!!.getStringExtra(startKey)
-//                val end = result.data!!.getStringExtra(endKey)
-//                val duration = result.data!!.getStringExtra(durationKey)
-//                val note = result.data!!.getStringExtra(noteKey)
-//                val name = result.data!!.getStringExtra(nameKey)
-//                val phone = result.data!!.getStringExtra(phoneKey)
-//
-//                viewModel.addNewContract(title!!,
-//                    location!!,
-//                    rent!!,
-//                    start!!,
-//                    end!!,
-//                    duration!!,
-//                    note!!,
-//                    name!!,
-//                    phone!!)
-
                 viewModel.fetchContract()
-
             } else {
                 Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
             }
@@ -114,7 +95,6 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeContractList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "${it}")
             adapter.submitList(it)
         }
 
@@ -130,8 +110,24 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.fetchContract()
+            } else {
+                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
+            }
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
+
+//    override fun onDestroyView() {
+//        _binding = null
+//        super.onDestroyView()
+//    }
 }

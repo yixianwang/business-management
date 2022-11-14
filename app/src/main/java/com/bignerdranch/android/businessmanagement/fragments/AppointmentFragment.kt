@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -83,7 +85,6 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeAppointmentList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "${it}")
             adapter.submitList(it)
         }
 
@@ -98,4 +99,24 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
 //            startActivity(addAppointmentIntent)
         }
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.fetchAppointment()
+            } else {
+                Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
+            }
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+//    override fun onDestroyView() {
+//        _binding = null
+//        super.onDestroyView()
+//    }
 }
