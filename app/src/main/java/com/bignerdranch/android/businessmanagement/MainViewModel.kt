@@ -12,6 +12,7 @@ class MainViewModel: ViewModel() {
     private var appointmentList = MutableLiveData<List<Appointment>>()
     private val dbHelp = ViewModelDBHelper()
 
+    // contract
     fun addNewContract(title: String,
                        location: String,
                        rent: String,
@@ -35,6 +36,20 @@ class MainViewModel: ViewModel() {
         dbHelp.createContract(contract, contractList)
     }
 
+    fun fetchContract() {
+        dbHelp.fetchContract(contractList)
+    }
+
+    fun observeContractList(): LiveData<List<Contract>> {
+        return contractList
+    }
+
+    fun removeContractAt(position: Int) {
+        val contract = contractList.value?.get(position)!!
+        dbHelp.removeContract(contract, contractList)
+    }
+
+    // appointment
     fun addNewAppointment(title: String,
                           location: String,
                           note: String,
@@ -52,29 +67,18 @@ class MainViewModel: ViewModel() {
         dbHelp.createAppointment(appointment, appointmentList)
     }
 
-    fun fetchContract() {
-        dbHelp.fetchContract(contractList)
-    }
-
     fun fetchAppointment() {
         dbHelp.fetchAppointment(appointmentList)
-    }
-
-    fun observeContractList(): LiveData<List<Contract>> {
-        return contractList
     }
 
     fun observeAppointmentList(): LiveData<List<Appointment>> {
         return appointmentList
     }
 
-    fun removeContractAt(position: Int) {
-        val contract = contractList.value?.get(position)!!
-        dbHelp.removeContract(contract, contractList)
-    }
-
     fun removeAppointmentAt(position: Int) {
         val appointment = appointmentList.value?.get(position)!!
         dbHelp.removeAppointment(appointment, appointmentList)
     }
+
+    // home
 }

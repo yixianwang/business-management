@@ -11,8 +11,7 @@ class ViewModelDBHelper() {
     private val allContracts = "allContracts"
     private val allAppointments = "allAppointments"
 
-    /////////////////////////////////////////////////////////////
-    // Interact with Firestore db
+    // Contract operation
     // https://firebase.google.com/docs/firestore/query-data/order-limit-data
     private fun dbFetchContract(contractList: MutableLiveData<List<Contract>>) {
         db.collection(allContracts)
@@ -66,7 +65,6 @@ class ViewModelDBHelper() {
     }
 
     // Appointment operations
-//    createAppointment
     private fun dbFetchAppointment(appointmentList: MutableLiveData<List<Appointment>>) {
         db.collection(allAppointments)
             .get()
