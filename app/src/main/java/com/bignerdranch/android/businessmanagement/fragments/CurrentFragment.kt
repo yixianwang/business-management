@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
+import com.bignerdranch.android.businessmanagement.fragments.adapters.CurrentAdapter
+import com.bignerdranch.android.businessmanagement.fragments.managers.AddContractManager
 
 class CurrentFragment : Fragment(R.layout.fragment_current) {
     companion object {

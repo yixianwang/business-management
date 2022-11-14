@@ -1,4 +1,4 @@
-package com.bignerdranch.android.businessmanagement.fragments
+package com.bignerdranch.android.businessmanagement.fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

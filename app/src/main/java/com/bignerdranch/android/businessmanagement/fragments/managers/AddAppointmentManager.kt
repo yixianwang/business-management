@@ -1,4 +1,4 @@
-package com.bignerdranch.android.businessmanagement.fragments
+package com.bignerdranch.android.businessmanagement.fragments.managers
 
 import android.content.Intent
 import android.os.Bundle

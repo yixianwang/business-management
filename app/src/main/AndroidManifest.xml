@@ -27,13 +27,13 @@
         </activity>
 
         <activity
-            android:name=".fragments.AddContractManager"
+            android:name=".fragments.managers.AddContractManager"
             android:parentActivityName=".MainActivity"
             android:label="AddContractManager"
              />
 
         <activity
-            android:name=".fragments.AddAppointmentManager"
+            android:name=".fragments.managers.AddAppointmentManager"
             android:parentActivityName=".MainActivity"
             android:label="AddAppointmentManager"
              />

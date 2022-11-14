@@ -1,4 +1,4 @@
-package com.bignerdranch.android.businessmanagement.fragments
+package com.bignerdranch.android.businessmanagement.fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.bignerdranch.android.businessmanagement.databinding.RowAppointmentBin
 import com.bignerdranch.android.businessmanagement.model.Appointment
 
 class AppointmentAdapter(private val viewModel: MainViewModel)
-    : ListAdapter<Appointment, AppointmentAdapter.VH>(AppointmentAdapter.Diff())  {
+    : ListAdapter<Appointment, AppointmentAdapter.VH>(Diff())  {
     class Diff : DiffUtil.ItemCallback<Appointment>() {
         override fun areItemsTheSame(oldItem: Appointment, newItem: Appointment): Boolean {
             return oldItem.firestoreID == newItem.firestoreID

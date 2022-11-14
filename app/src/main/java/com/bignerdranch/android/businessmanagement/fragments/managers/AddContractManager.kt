@@ -1,15 +1,12 @@
-package com.bignerdranch.android.businessmanagement.fragments
+package com.bignerdranch.android.businessmanagement.fragments.managers
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import androidx.activity.viewModels
 import com.bignerdranch.android.businessmanagement.databinding.ActivityAddContractBinding
-import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
 
 class AddContractManager : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
