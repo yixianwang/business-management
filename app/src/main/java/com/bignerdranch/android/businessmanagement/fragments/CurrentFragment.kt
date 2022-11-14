@@ -9,7 +9,9 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
@@ -69,6 +71,36 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
             }
         }
 
+    private fun getPos(holder: RecyclerView.ViewHolder) : Int {
+        val pos = holder.bindingAdapterPosition
+        // notifyDataSetChanged was called, so position is not known
+        if( pos == RecyclerView.NO_POSITION) {
+            return holder.absoluteAdapterPosition
+        }
+        return pos
+    }
+
+    // Touch helpers provide functionality like detecting swipes or moving
+    // entries in a recycler view.  Here we do swipe left to delete
+    private fun initTouchHelper(): ItemTouchHelper {
+        val simpleItemTouchCallback =
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START)
+            {
+                override fun onMove(recyclerView: RecyclerView,
+                                    viewHolder: RecyclerView.ViewHolder,
+                                    target: RecyclerView.ViewHolder): Boolean {
+                    return true
+                }
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
+                                      direction: Int) {
+                    val position = getPos(viewHolder)
+                    Log.d(javaClass.simpleName, "Swipe delete $position")
+                    viewModel.removeContractAt(position)
+                }
+            }
+        return ItemTouchHelper(simpleItemTouchCallback)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCurrentBinding.bind(view)
@@ -79,6 +111,7 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         rv.addItemDecoration(itemDecor)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(rv.context)
+        initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeContractList().observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, "${it}")

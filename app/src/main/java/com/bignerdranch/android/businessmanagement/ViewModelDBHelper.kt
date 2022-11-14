@@ -50,6 +50,21 @@ class ViewModelDBHelper() {
             }
     }
 
+    fun removeContract(
+        contract: Contract,
+        contractList: MutableLiveData<List<Contract>>
+    ) {
+        db.collection(allContracts)
+            .document(contract.firestoreID)
+            .delete()
+            .addOnSuccessListener {
+                dbFetchContract(contractList)
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "fail remove")
+            }
+    }
+
     // Appointment operations
 //    createAppointment
     private fun dbFetchAppointment(appointmentList: MutableLiveData<List<Appointment>>) {
@@ -86,4 +101,21 @@ class ViewModelDBHelper() {
                 Log.d(javaClass.simpleName, "fail create")
             }
     }
+
+    fun removeAppointment(
+        appointment: Appointment,
+        appointmentList: MutableLiveData<List<Appointment>>
+    ) {
+        db.collection(allAppointments)
+            .document(appointment.firestoreID)
+            .delete()
+            .addOnSuccessListener {
+                dbFetchAppointment(appointmentList)
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "fail remove")
+            }
+    }
+
+
 }

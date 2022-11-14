@@ -1,5 +1,6 @@
 package com.bignerdranch.android.businessmanagement
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -67,4 +68,13 @@ class MainViewModel: ViewModel() {
         return appointmentList
     }
 
+    fun removeContractAt(position: Int) {
+        val contract = contractList.value?.get(position)!!
+        dbHelp.removeContract(contract, contractList)
+    }
+
+    fun removeAppointmentAt(position: Int) {
+        val appointment = appointmentList.value?.get(position)!!
+        dbHelp.removeAppointment(appointment, appointmentList)
+    }
 }
