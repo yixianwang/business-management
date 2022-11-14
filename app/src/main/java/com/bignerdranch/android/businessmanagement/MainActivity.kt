@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.fetchContract()
+        viewModel.fetchAppointment()
     }
 
     private fun changeFragment(fragment: Fragment) =

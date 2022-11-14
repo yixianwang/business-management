@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.databinding.ActivityAddAppointmentBinding
-import com.bignerdranch.android.businessmanagement.databinding.ActivityAddContractBinding
 
 class AddAppointmentManager: AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
@@ -38,8 +37,5 @@ class AddAppointmentManager: AppCompatActivity() {
         binding.cancelButton.setOnClickListener {
             finish()
         }
-
-
     }
-
 }

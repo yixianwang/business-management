@@ -23,7 +23,6 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
         }
     }
 
-
     private val viewModel: MainViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -57,12 +56,13 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
 
 
         binding.appointmentAddBut.setOnClickListener {
-            val addAppointmentIntent = Intent(context, AddContractManager::class.java)
+            val addAppointmentIntent = Intent(context, AddAppointmentManager::class.java)
             val myExtra = Bundle()
 //            myExtra.putString(playedCountKey, playedCount)
 //            myExtra.putString(onLoopModeKey, onLoopMode)
             addAppointmentIntent.putExtras(myExtra)
             resultLauncher.launch(addAppointmentIntent)
-//            startActivity(addContractIntent)
+//            startActivity(addAppointmentIntent)
         }
+    }
 }

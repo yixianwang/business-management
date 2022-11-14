@@ -30,7 +30,13 @@
             android:name=".fragments.AddContractManager"
             android:parentActivityName=".MainActivity"
             android:label="AddContractManager"
-            android:theme="@style/AppTheme" />
+             />
+
+        <activity
+            android:name=".fragments.AddAppointmentManager"
+            android:parentActivityName=".MainActivity"
+            android:label="AddAppointmentManager"
+             />
     </application>
 
 </manifest>
