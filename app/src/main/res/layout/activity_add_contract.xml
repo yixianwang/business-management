@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,6 +52,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start" />
-        <EditText
-            android:id="@+id/et_start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <DatePicker
+            android:id="@+id/et_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
     </LinearLayout>
 
     <LinearLayout
@@ -68,11 +77,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End" />
-        <EditText
-            android:id="@+id/et_end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <DatePicker
+            android:id="@+id/et_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
     </LinearLayout>
+
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,4 +168,5 @@
             android:layout_marginLeft="10dp"
             android:text="SAVE"/>
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
