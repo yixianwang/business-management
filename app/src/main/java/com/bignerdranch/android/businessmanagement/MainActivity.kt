@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
 //        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
-        val currentFragment = CurrentFragment()
-        val appointmentFragment = AppointmentFragment()
-        val homeFragment = HomeFragment()
+        val currentFragment = CurrentFragment.newInstance()
+        val appointmentFragment = AppointmentFragment.newInstance()
+        val homeFragment = HomeFragment.newInstance()
         val accountantFragment = AccountantFragment()
         val dataFragment = DataFragment()
 

@@ -42,37 +42,27 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
 
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val t = result.data!!
+//                val title = result.data!!.getStringExtra(titleKey)
+//                val location = result.data!!.getStringExtra(locationKey)
+//                val rent = result.data!!.getStringExtra(rentKey)
+//                val start = result.data!!.getStringExtra(startKey)
+//                val end = result.data!!.getStringExtra(endKey)
+//                val duration = result.data!!.getStringExtra(durationKey)
+//                val note = result.data!!.getStringExtra(noteKey)
+//                val name = result.data!!.getStringExtra(nameKey)
+//                val phone = result.data!!.getStringExtra(phoneKey)
+//
+//                viewModel.addNewContract(title!!,
+//                    location!!,
+//                    rent!!,
+//                    start!!,
+//                    end!!,
+//                    duration!!,
+//                    note!!,
+//                    name!!,
+//                    phone!!)
 
-                val title = result.data!!.getStringExtra(titleKey)
-                val location = result.data!!.getStringExtra(locationKey)
-                val rent = result.data!!.getStringExtra(rentKey)
-                val start = result.data!!.getStringExtra(startKey)
-                val end = result.data!!.getStringExtra(endKey)
-                val duration = result.data!!.getStringExtra(durationKey)
-                val note = result.data!!.getStringExtra(noteKey)
-                val name = result.data!!.getStringExtra(nameKey)
-                val phone = result.data!!.getStringExtra(phoneKey)
-
-                viewModel.addNewContract(title!!,
-                    location!!,
-                    rent!!,
-                    start!!,
-                    end!!,
-                    duration!!,
-                    note!!,
-                    name!!,
-                    phone!!)
-
-                onLoopMode = result.data!!.getBooleanExtra(onLoopModeKey, onLoopMode)
-                Log.d("XXX result from setting", "$onLoopMode")
-
-                if (onLoopMode) {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.red, this.theme))
-                } else {
-                    binding.loopButton.setBackgroundColor(resources.getColor(R.color.transparent, this.theme))
-                }
-                player.isLooping = onLoopMode
+                viewModel.fetchContract()
 
             } else {
                 Log.w(javaClass.simpleName, "Bad activity return code ${result.resultCode}")
@@ -91,23 +81,20 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         rv.layoutManager = LinearLayoutManager(rv.context)
 
         viewModel.observeContractList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "xxx${it}")
+            Log.d(javaClass.simpleName, "${it}")
             adapter.submitList(it)
         }
 
 
         binding.currentAddBut.setOnClickListener {
             val addContractIntent = Intent(context, AddContractManager::class.java)
-//            val myExtra = Bundle()
-//
+            val myExtra = Bundle()
 //            myExtra.putString(playedCountKey, playedCount)
 //            myExtra.putString(onLoopModeKey, onLoopMode)
-//            addContractIntent.putExtras(myExtra)
-//            resultLauncher.launch(addContractIntent)
-            startActivity(addContractIntent)
-            viewModel.fetchContract()
+            addContractIntent.putExtras(myExtra)
+            resultLauncher.launch(addContractIntent)
+//            startActivity(addContractIntent)
         }
-
     }
 
     override fun onDestroyView() {

@@ -2,6 +2,7 @@ package com.bignerdranch.android.businessmanagement
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.bignerdranch.android.businessmanagement.model.Appointment
 import com.bignerdranch.android.businessmanagement.model.Contract
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -17,14 +18,14 @@ class ViewModelDBHelper() {
         db.collection(allContracts)
             .get()
             .addOnSuccessListener { result ->
-                Log.d(javaClass.simpleName, "allNotes fetch ${result!!.documents.size}")
+                Log.d(javaClass.simpleName, "allContracts fetch ${result!!.documents.size}")
                 // NB: This is done on a background thread
                 contractList.postValue(result.documents.mapNotNull {
                     it.toObject(Contract::class.java)
                 })
             }
             .addOnFailureListener {
-                Log.d(javaClass.simpleName, "allNotes fetch FAILED ", it)
+                Log.d(javaClass.simpleName, "allContracts fetch FAILED ", it)
             }
     }
 
@@ -49,4 +50,40 @@ class ViewModelDBHelper() {
             }
     }
 
+    // Appointment operations
+//    createAppointment
+    private fun dbFetchAppointment(appointmentList: MutableLiveData<List<Appointment>>) {
+        db.collection(allAppointments)
+            .get()
+            .addOnSuccessListener { result ->
+                Log.d(javaClass.simpleName, "allAppointments fetch ${result!!.documents.size}")
+                // NB: This is done on a background thread
+                appointmentList.postValue(result.documents.mapNotNull {
+                    it.toObject(Appointment::class.java)
+                })
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "allAppointments fetch FAILED ", it)
+            }
+    }
+
+    fun fetchAppointment(appointmentList: MutableLiveData<List<Appointment>>) {
+        dbFetchAppointment(appointmentList)
+    }
+
+    fun createAppointment(
+        appointment: Appointment,
+        appointmentList: MutableLiveData<List<Appointment>>
+    ) {
+        appointment.firestoreID = db.collection(allAppointments).document().id
+
+        db.collection(allAppointments)
+            .add(appointment)
+            .addOnSuccessListener {
+                dbFetchAppointment(appointmentList)
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "fail create")
+            }
+    }
 }
