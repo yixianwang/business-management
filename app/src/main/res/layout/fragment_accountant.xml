@@ -5,10 +5,84 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AccountantFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="accountant fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/accountant_table"
+        android:padding="40dp">
+
+        <!--Table Heading-->
+        <TableRow
+            android:background="@color/coloGreen">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/col1"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_weight="4"
+                android:gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/col2"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/col3"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_weight="4"
+                android:gravity="center_horizontal"
+                />
+
+        </TableRow>
+
+        <!--Table Data-->
+<!--        <TableRow>-->
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/row1Col1"-->
+<!--                android:padding="10dp"-->
+<!--                android:textSize="12sp"-->
+<!--                android:layout_weight="4"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/row1Col2"-->
+<!--                android:padding="10dp"-->
+<!--                android:textSize="12sp"-->
+<!--                android:layout_weight="2"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/row1Col3"-->
+<!--                android:padding="10dp"-->
+<!--                android:textSize="12sp"-->
+<!--                android:layout_weight="4"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                />-->
+<!--        </TableRow>-->
+
+    </TableLayout>
 
 </FrameLayout>

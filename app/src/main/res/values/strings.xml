@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Business Management</string>
 
+    <string name="col1">col1</string>
+    <string name="col2">col2</string>
+    <string name="col3">col3</string>
+    <string name="row1Col1">row1Col1</string>
+    <string name="row1Col2">row1Col2</string>
+    <string name="row1Col3">col1col3</string>
+
+
+
 </resources>
