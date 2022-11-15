@@ -6,10 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        >-->
 
         <!--        <androidx.recyclerview.widget.RecyclerView-->
         <!--            android:id="@+id/home_rv"-->
@@ -21,10 +21,7 @@
         <!--            app:layout_constraintBottom_toTopOf="@+id/home_add_but"-->
         <!--            />-->
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/line_chart" />
+
 
 <!--        <Button-->
 <!--            android:id="@+id/home_add_but"-->
@@ -37,6 +34,11 @@
 <!--            app:layout_constraintTop_toBottomOf="@+id/temp_text"-->
 <!--            />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/line_chart" />
 
 </FrameLayout>
