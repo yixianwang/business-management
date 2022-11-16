@@ -55,14 +55,16 @@ class MainViewModel: ViewModel() {
                           note: String,
                           deposit: String,
                           name: String,
-                          phone: String) {
+                          phone: String,
+                          startDate: String) {
         val appointment = Appointment(
             title = title,
             location = location,
             deposit = deposit,
             note = note,
             name = name,
-            phone = phone
+            phone = phone,
+            startDate = startDate
         )
         dbHelp.createAppointment(appointment, appointmentList)
     }

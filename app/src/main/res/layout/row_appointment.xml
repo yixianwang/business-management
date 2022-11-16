@@ -27,6 +27,12 @@
             android:text="tv_location" />
 
         <TextView
+            android:id="@+id/tv_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tv_start_date" />
+
+        <TextView
             android:id="@+id/tv_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -32,7 +32,7 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
 
         val ll = binding.accountantTable
 
-        for (i in 0..1) {
+        for (i in 0..50) {
             val row = TableRow(context)
             row.layoutParams = TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,

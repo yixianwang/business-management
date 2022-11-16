@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AccountantFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/accountant_table"
-        android:padding="40dp">
+        android:padding="10dp"
+        >
 
         <!--Table Heading-->
         <TableRow
@@ -22,8 +27,8 @@
                 android:textColor="@color/white"
                 android:padding="10dp"
                 android:textSize="14sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
+                android:layout_weight="2"
+                android:gravity="center"
                 />
 
             <TextView
@@ -34,7 +39,7 @@
                 android:padding="10dp"
                 android:textSize="14sp"
                 android:layout_weight="2"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 />
 
             <TextView
@@ -44,9 +49,11 @@
                 android:textColor="@color/white"
                 android:padding="10dp"
                 android:textSize="14sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
+                android:layout_weight="2"
+                android:gravity="center"
                 />
+
+
 
         </TableRow>
 
@@ -84,5 +91,6 @@
 <!--        </TableRow>-->
 
     </TableLayout>
+    </LinearLayout>
 
-</FrameLayout>
+</ScrollView>

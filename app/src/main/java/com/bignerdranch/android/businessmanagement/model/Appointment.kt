@@ -11,6 +11,7 @@ data class Appointment(
     var deposit: String = "",
     var name: String = "",
     var phone: String = "",
+    var startDate: String = "",
 
     // Written on the server
     @ServerTimestamp val timeStamp: Timestamp? = null,

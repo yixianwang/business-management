@@ -23,7 +23,8 @@ class AddAppointmentManager: AppCompatActivity() {
                 binding.etNote.text.toString(),
                 binding.etDeposit.text.toString(),
                 binding.etName.text.toString(),
-                binding.etPhone.text.toString()
+                binding.etPhone.text.toString(),
+                binding.etStartDate.text.toString()
             )
 
             Intent().apply {
