@@ -2,6 +2,7 @@ package com.bignerdranch.android.businessmanagement
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.bignerdranch.android.businessmanagement.model.Accountant
 import com.bignerdranch.android.businessmanagement.model.Appointment
 import com.bignerdranch.android.businessmanagement.model.Contract
 import com.google.firebase.firestore.FirebaseFirestore
@@ -115,5 +116,10 @@ class ViewModelDBHelper() {
             }
     }
 
+    // Accountant operations
+//    fun fetchAccountant(accountantList: MutableLiveData<List<Accountant>>) {
+//        db.collection(allContracts)
+//
+//    }
 
 }
