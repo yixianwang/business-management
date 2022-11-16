@@ -115,11 +115,4 @@ class ViewModelDBHelper() {
                 Log.d(javaClass.simpleName, "fail remove")
             }
     }
-
-    // Accountant operations
-//    fun fetchAccountant(accountantList: MutableLiveData<List<Accountant>>) {
-//        db.collection(allContracts)
-//
-//    }
-
 }

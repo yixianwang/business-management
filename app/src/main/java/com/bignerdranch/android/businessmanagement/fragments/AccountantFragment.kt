@@ -40,11 +40,17 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
 
         viewModel.fetchAccountant()
 
+
         viewModel.observeAccountantList().observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, "${it}")
             Log.d(javaClass.simpleName, "${it.first}")
             Log.d(javaClass.simpleName, "${it.second}")
-            for (i in 1 .. it.first.size ) {
+            val keySet = HashSet<String>()
+            keySet.addAll(it.first.keys)
+            keySet.addAll(it.second.keys)
+            Log.d(javaClass.simpleName, "${keySet}")
+
+            for (i in keySet ) {
                 val row = TableRow(context)
                 row.layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
@@ -55,9 +61,9 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
                 val tv2 = TextView(context)
                 val tv3 = TextView(context)
 
-                tv1.text = "${i}"
-                tv2.text = it.first.getValue("${i}").toString()
-                tv3.text = it.second.getValue("${i}").toString()
+                tv1.text = i
+                tv2.text = it.first.getOrDefault(i, "0").toString()
+                tv3.text = it.second.getOrDefault(i, "0").toString()
 
 
                 tv1.layoutParams = TableRow.LayoutParams(
@@ -89,6 +95,11 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
                 ll.addView(row, -1)
             }
         }
-        
+
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        viewModel.fetchAccountant()
+//    }
 }
