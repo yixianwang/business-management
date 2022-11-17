@@ -73,7 +73,7 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
                 tv1.layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
-                    4f
+                    2f
                 )
 
                 tv2.layoutParams = TableRow.LayoutParams(
@@ -85,7 +85,7 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
                 tv3.layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
-                    4f
+                    2f
                 )
 
                 tv1.gravity = Gravity.CENTER_HORIZONTAL

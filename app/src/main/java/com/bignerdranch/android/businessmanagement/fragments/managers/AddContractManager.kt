@@ -64,7 +64,6 @@ class AddContractManager : AppCompatActivity() {
             finish()
         }
 
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
