@@ -98,8 +98,4 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
 
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.fetchAccountant()
-//    }
 }
