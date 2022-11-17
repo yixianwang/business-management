@@ -96,6 +96,16 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
             }
         }
 
+        binding.btnGeneratePdf.setOnClickListener {
+            viewModel.generatePDF()
+        }
+
+        binding.btnViewPdf.setOnClickListener {
+
+        }
+
+
+
     }
 
 }

@@ -21,7 +21,7 @@ class MainViewModel: ViewModel() {
 
     private val sdf = SimpleDateFormat("yyyy.MM.dd")
     private val currentMonth = sdf.format(Date()).split('.')[1].toInt()
-    private val lastMonth = currentMonth - 1
+    private val lastMonth = if (currentMonth == 1) 12 else currentMonth - 1
 
     // contract
     fun addNewContract(title: String,
@@ -134,6 +134,27 @@ class MainViewModel: ViewModel() {
         )
     }
 
+    fun generatePDF() {
+        Log.d(javaClass.simpleName, "${currentMonth}, ${lastMonth}")
+    }
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

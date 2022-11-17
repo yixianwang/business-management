@@ -7,7 +7,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -91,6 +92,35 @@
 <!--        </TableRow>-->
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/btn_generate_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate PDF"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btn_view_pdf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="View PDF"
+                />
+            <Button
+                android:id="@+id/btn_share_pdf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Share PDF"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
