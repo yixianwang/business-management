@@ -1,9 +1,11 @@
 package com.bignerdranch.android.businessmanagement.fragments.managers
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.businessmanagement.MainViewModel
@@ -17,6 +19,8 @@ class AddContractManager : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityAddContractBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.okButton.setOnClickListener {
             when {
@@ -61,5 +65,13 @@ class AddContractManager : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.home -> finish()
+        }
+        return true
     }
 }

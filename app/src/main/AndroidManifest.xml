@@ -30,12 +30,10 @@
         </activity>
         <activity
             android:name=".fragments.managers.AddContractManager"
-            android:label="AddContractManager"
-            android:parentActivityName=".MainActivity" />
+            android:label="AddContractManager" />
         <activity
             android:name=".fragments.managers.AddAppointmentManager"
-            android:label="AddAppointmentManager"
-            android:parentActivityName=".MainActivity" />
+            android:label="AddAppointmentManager" />
         <activity
             android:name=".fragments.managers.ViewPDFActivity"
             android:label="ViewPDFActivity"
