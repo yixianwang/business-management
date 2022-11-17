@@ -1,12 +1,24 @@
 package com.bignerdranch.android.businessmanagement
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.businessmanagement.model.Accountant
 import com.bignerdranch.android.businessmanagement.model.Appointment
 import com.bignerdranch.android.businessmanagement.model.Contract
+import com.itextpdf.text.Document
+import com.itextpdf.text.DocumentException
+import com.itextpdf.text.Font
+import com.itextpdf.text.PageSize
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -134,11 +146,48 @@ class MainViewModel: ViewModel() {
         )
     }
 
-    fun generatePDF() {
-        Log.d(javaClass.simpleName, "${currentMonth}, ${lastMonth}")
+    fun generatePDF(context: Context) {
+        val path = context.getExternalFilesDir(null)!!.absolutePath.toString() + "/users.pdf"
+        val file = File(path)
+
+        // check file existance
+        if (!file.exists()) {
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+        val document: Document = Document(PageSize.LETTER)
+
+        try {
+            PdfWriter.getInstance(document, FileOutputStream(file.absoluteFile))
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+
+        document.open()
+
+        val font = Font(Font.FontFamily.COURIER, 24f)
+
+        val paragraph: Paragraph = Paragraph()
+        paragraph.add(Paragraph("111", font))
+        paragraph.add(Paragraph("111", font))
+        paragraph.add(Paragraph("\n", font))
+        paragraph.add(Paragraph("111", font))
+        paragraph.add(Paragraph("111", font))
+
+        try {
+            document.add(paragraph)
+        } catch (e: DocumentException) {
+            e.printStackTrace()
+        }
+
+        document.close()
+        Log.d(javaClass.simpleName, "$path")
+        Toast.makeText(context, "Successfully creating PDF", Toast.LENGTH_LONG).show()
     }
-
-
 
 }
 

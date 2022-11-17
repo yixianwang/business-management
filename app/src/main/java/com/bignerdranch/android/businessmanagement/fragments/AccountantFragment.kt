@@ -1,8 +1,10 @@
 package com.bignerdranch.android.businessmanagement.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -17,6 +19,8 @@ import androidx.lifecycle.LiveData
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentAccountantBinding
+import com.bignerdranch.android.businessmanagement.fragments.managers.AddContractManager
+import com.bignerdranch.android.businessmanagement.fragments.managers.ViewPDFActivity
 
 
 class AccountantFragment : Fragment(R.layout.fragment_accountant) {
@@ -97,14 +101,13 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
         }
 
         binding.btnGeneratePdf.setOnClickListener {
-            viewModel.generatePDF()
+            viewModel.generatePDF(requireContext())
         }
 
         binding.btnViewPdf.setOnClickListener {
-
+            val viewPDFIntent = Intent(context, ViewPDFActivity::class.java)
+            startActivity(viewPDFIntent)
         }
-
-
 
     }
 

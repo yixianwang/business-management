@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,7 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BusinessManagement" >
+        android:theme="@style/Theme.BusinessManagement">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -24,18 +28,20 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".fragments.managers.AddContractManager"
-            android:parentActivityName=".MainActivity"
             android:label="AddContractManager"
-             />
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".fragments.managers.AddAppointmentManager"
-            android:parentActivityName=".MainActivity"
             android:label="AddAppointmentManager"
-             />
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".fragments.managers.ViewPDFActivity"
+            android:label="ViewPDFActivity"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>
