@@ -172,11 +172,20 @@ class MainViewModel: ViewModel() {
         val font = Font(Font.FontFamily.COURIER, 24f)
 
         val paragraph: Paragraph = Paragraph()
-        paragraph.add(Paragraph("111", font))
-        paragraph.add(Paragraph("111", font))
-        paragraph.add(Paragraph("\n", font))
-        paragraph.add(Paragraph("111", font))
-        paragraph.add(Paragraph("111", font))
+        // edit pdf
+        val keySet = HashSet<String>()
+        keySet.addAll(accountantList.value!!.first.keys)
+        keySet.addAll(accountantList.value!!.second.keys)
+
+        for (i in keySet ) {
+            val row = "HouseID: #${i} \n" +
+                    "Cumulative Sum(Current Month): ${accountantList.value!!.first.getOrDefault(i, "0")}$ \n" +
+                    "Last Month Sum: ${accountantList.value!!.second.getOrDefault(i, "0")}$ \n"
+            paragraph.add(Paragraph(row, font))
+            paragraph.add(Paragraph("\n", font))
+        }
+        // end edit pdf
+
 
         try {
             document.add(paragraph)
