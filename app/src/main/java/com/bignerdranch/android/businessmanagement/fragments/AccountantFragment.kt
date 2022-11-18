@@ -1,26 +1,25 @@
 package com.bignerdranch.android.businessmanagement.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
+import com.bignerdranch.android.businessmanagement.BuildConfig
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentAccountantBinding
-import com.bignerdranch.android.businessmanagement.fragments.managers.AddContractManager
 import com.bignerdranch.android.businessmanagement.fragments.managers.ViewPDFActivity
+import java.io.File
 
 
 class AccountantFragment : Fragment(R.layout.fragment_accountant) {
@@ -39,6 +38,10 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAccountantBinding.bind(view)
+
+//        val builder: StrictMode.VmPolicy.Builder = Builder()
+//        StrictMode.setVmPlicy(builder.build())
+//        builder.detectFileUriExposure()
 
         val ll = binding.accountantTable
 
@@ -109,6 +112,45 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
             startActivity(viewPDFIntent)
         }
 
+        binding.btnSharePdf.setOnClickListener {
+            val path = context?.getExternalFilesDir(null)!!.absolutePath.toString() + "/users.pdf"
+            Log.d(javaClass.simpleName, "${path}")
+            val file = File(path)
+            val uriPath = uriFromFile(requireContext(), file)
+            Log.d(javaClass.simpleName, "${uriPath}")
+
+            // check file existance
+            if (file.exists()) {
+                // plain text
+//                val intent = Intent()
+//                intent.action = Intent.ACTION_SEND
+//                intent.type = "text/plain"
+//                intent.putExtra(Intent.EXTRA_TEXT, path)
+//                val chooser = Intent.createChooser(intent, "Share using....")
+//                startActivity(chooser)
+
+                // pdf
+                val intent = Intent()
+                intent.action = Intent.ACTION_SEND
+                intent.type = "application/pdf"
+                intent.putExtra(Intent.EXTRA_STREAM, uriPath)
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                val chooser = Intent.createChooser(intent, "Share using....")
+                startActivity(chooser)
+
+            }
+
+
+        }
+
+    }
+
+    private fun uriFromFile(context: Context, file:File): Uri {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
+        } else {
+            return Uri.fromFile(file)
+        }
     }
 
 }
