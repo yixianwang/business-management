@@ -147,7 +147,7 @@ class MainViewModel: ViewModel() {
     }
 
     fun generatePDF(context: Context) {
-        val path = context.getExternalFilesDir(null)!!.absolutePath.toString() + "/users.pdf"
+        val path = context.getExternalFilesDir(null)!!.absolutePath.toString() + "/summary.pdf"
         val file = File(path)
 
         // check file existance
@@ -186,7 +186,6 @@ class MainViewModel: ViewModel() {
         }
         // end edit pdf
 
-
         try {
             document.add(paragraph)
         } catch (e: DocumentException) {
@@ -195,7 +194,7 @@ class MainViewModel: ViewModel() {
 
         document.close()
         Log.d(javaClass.simpleName, "$path")
-        Toast.makeText(context, "Successfully creating PDF", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Successfully creating summary.pdf", Toast.LENGTH_LONG).show()
     }
 
 }

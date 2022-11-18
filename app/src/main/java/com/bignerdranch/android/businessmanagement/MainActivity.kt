@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         val currentFragment = CurrentFragment.newInstance()
         val appointmentFragment = AppointmentFragment.newInstance()
         val homeFragment = HomeFragment.newInstance()
-        val accountantFragment = AccountantFragment()
-        val dataFragment = DataFragment()
+        val accountantFragment = AccountantFragment.newInstance()
+        val dataFragment = DataFragment.newInstance()
 
         changeFragment(homeFragment)
 

@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bignerdranch.android.businessmanagement.BuildConfig
@@ -105,6 +106,7 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
 
         binding.btnGeneratePdf.setOnClickListener {
             viewModel.generatePDF(requireContext())
+            binding.layoutViewAndShareBtn.isVisible = true
         }
 
         binding.btnViewPdf.setOnClickListener {
@@ -113,7 +115,7 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
         }
 
         binding.btnSharePdf.setOnClickListener {
-            val path = context?.getExternalFilesDir(null)!!.absolutePath.toString() + "/users.pdf"
+            val path = context?.getExternalFilesDir(null)!!.absolutePath.toString() + "/summary.pdf"
             Log.d(javaClass.simpleName, "${path}")
             val file = File(path)
             val uriPath = uriFromFile(requireContext(), file)
