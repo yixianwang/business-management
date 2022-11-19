@@ -30,7 +30,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         showPieChart()
     }
 
-    fun setLineChartData() {
+    private fun setLineChartData() {
         val xvalue = ArrayList<String>()
         xvalue.add("11.00 am")
         xvalue.add("12.00 am")
@@ -64,7 +64,6 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
 //        binding.lineChart.animateXY(3000, 3000)
     }
-
 
     private fun showPieChart() {
         val pieEntries: ArrayList<PieEntry> = ArrayList()
@@ -106,6 +105,8 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.pieChartView.data = pieData
         binding.pieChartView.invalidate()
     }
+
+
 }
 
 
