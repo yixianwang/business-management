@@ -121,20 +121,10 @@ class MainViewModel: ViewModel() {
         fold(0) { acc, elem -> acc + selector(elem) }
 
     fun fetchAccountant() {
-//        currentMonthData.value = contractList.value!!
-//            .filter { it.start.split('/')[0].toInt() == currentMonth }
-//            .groupingBy {it.title}
-//            .eachSumBy {it.rent.toInt()}
-//
-//        lastMonthData.value = contractList.value!!
-//            .filter { it.start.split('/')[0].toInt() == lastMonth }
-//            .groupingBy {it.title}
-//            .eachSumBy {it.rent.toInt()}
-
-//        currentMonthData.value = contractList.value!!
-//            .filter { it.start.split('/')[0].toInt() == currentMonth || it.start.split('/')[0].toInt() == lastMonth }
-//            .groupingBy {Key(it.title, it.start.split('/')[0].toInt())}
-//            .eachSumBy {it.rent.toInt()}
+        if (contractList.value == null) {
+            fetchContract()
+            return
+        }
 
         accountantList = MutableLiveData(
             Pair(

@@ -2,11 +2,16 @@ package com.bignerdranch.android.businessmanagement.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
+import com.bignerdranch.android.businessmanagement.model.Appointment
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
@@ -18,6 +23,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         }
     }
 
+    private val viewModel: MainViewModel by activityViewModels()
 
     private var _binding: FragmentDataBinding? = null
 
@@ -33,14 +39,11 @@ class DataFragment : Fragment(R.layout.fragment_data) {
     }
 
     private fun setLineChartData() {
-        val xvalue = ArrayList<String>()
-        xvalue.add("11.00 am")
-        xvalue.add("12.00 am")
-        xvalue.add("1.00 am")
-        xvalue.add("3.00 am")
-        xvalue.add("5.00 am")
+        viewModel.observeAccountantList().observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, "acc list")
+        }
 
-        val lineEntry = ArrayList<Entry>();
+        val lineEntry = ArrayList<Entry>()
         lineEntry.add(Entry(20f, 10f))
         lineEntry.add(Entry(30f, 1f))
         lineEntry.add(Entry(40f, 2f))
@@ -48,8 +51,9 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         lineEntry.add(Entry(60f, 4f))
 
         val lineDataSet = LineDataSet(lineEntry, "First")
+        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
 
-        val lineEntry2 = ArrayList<Entry>();
+        val lineEntry2 = ArrayList<Entry>()
         lineEntry2.add(Entry(20f, 1f))
         lineEntry2.add(Entry(30f, 2f))
         lineEntry2.add(Entry(40f, 3f))
@@ -58,16 +62,21 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
         val lineDataSet2 = LineDataSet(lineEntry2, "Second")
 
-        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
-//        val data = LineData(lineDataSet)
-        val data = LineData(lineDataSet, lineDataSet2)
+
+        val data = LineData()
+        data.addDataSet(lineDataSet)
+        data.addDataSet(lineDataSet2)
 
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
 //        binding.lineChart.animateXY(3000, 3000)
 
-        val xAxisLabels = listOf("1a", "2a", "3", "4", "5")
-        binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+//        val xAxisLabels = listOf("a", "b", "c", "d", "e")
+//        binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+//        binding.lineChart.lineData.setValueFormatter(IndexAxisValueFormatter(xAxisLabels))
+
+//        Log.d(javaClass.simpleName, "${}")
+        binding.lineChart.description.text = "Monthly Income"
     }
 
 
@@ -111,6 +120,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         pieData.setDrawValues(true)
         binding.pieChart.data = pieData
         binding.pieChart.invalidate()
+        binding.pieChart.description.text = ""
     }
 
     private fun setBarChart() {
@@ -139,6 +149,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
         val xAxisLabels = listOf("1a", "2a", "3", "4", "5", "6")
         binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+        binding.barChart.description.text = ""
     }
 }
 
