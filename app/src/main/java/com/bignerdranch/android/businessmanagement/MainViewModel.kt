@@ -27,6 +27,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class MainViewModel: ViewModel() {
+    companion object {
+        var currentMonth = SimpleDateFormat("yyyy.MM.dd").format(Date()).split('.')[1].toInt()
+        var lastMonth = if (currentMonth == 1) 12 else currentMonth - 1
+    }
     private var contractList = MutableLiveData<List<Contract>>()
     private var appointmentList = MutableLiveData<List<Appointment>>()
 //    private var currentMonthData = MutableLiveData<Map<String, Int>>()
@@ -34,10 +38,6 @@ class MainViewModel: ViewModel() {
     private var accountantList = MutableLiveData<Pair<Map<String, Int>, Map<String, Int>>>()
 
     private val dbHelp = ViewModelDBHelper()
-
-    private val sdf = SimpleDateFormat("yyyy.MM.dd")
-    private val currentMonth = sdf.format(Date()).split('.')[1].toInt()
-    private val lastMonth = if (currentMonth == 1) 12 else currentMonth - 1
 
     // contract
     fun addNewContract(title: String,
@@ -129,11 +129,11 @@ class MainViewModel: ViewModel() {
         accountantList = MutableLiveData(
             Pair(
                 contractList.value
-                !!.filter { it.start.split('/')[0].toInt() == currentMonth }
+                !!.filter { it.start.split('/')[0].toInt() == MainViewModel.currentMonth }
                     .groupingBy {it.title}
                     .eachSumBy {it.rent.toInt()},
                 contractList.value!!
-                    .filter { it.start.split('/')[0].toInt() == lastMonth }
+                    .filter { it.start.split('/')[0].toInt() == MainViewModel.lastMonth }
                     .groupingBy {it.title}
                     .eachSumBy {it.rent.toInt()}
             )

@@ -7,11 +7,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
-import com.bignerdranch.android.businessmanagement.model.Appointment
-import com.github.mikephil.charting.components.Description
+import com.bignerdranch.android.businessmanagement.model.Contract
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
@@ -33,15 +33,30 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDataBinding.bind(view)
 
-        setLineChartData()
-        showPieChart()
-        setBarChart()
+        viewModel.observeContractList().observe(viewLifecycleOwner) {
+            setLineChartData(it)
+            setPieChart(it)
+            setBarChart(it)
+        }
     }
 
-    private fun setLineChartData() {
-        viewModel.observeAccountantList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "acc list")
-        }
+    private fun <T, K> Grouping<T, K>.eachSumBy(
+        selector: (T) -> Int
+    ): Map<K, Int> =
+        fold(0) { acc, elem -> acc + selector(elem) }
+
+    private fun setLineChartData(contractList: List<Contract>) {
+        val test = contractList.filter { it.start.split('/')[0].toInt() == MainViewModel.currentMonth }
+            .groupingBy {it.title}
+            .eachSumBy {it.rent.toInt()}
+        Log.d(javaClass.simpleName, "${test}")
+
+        val test2 = contractList.filter { it.start.split('/')[0].toInt() == MainViewModel.lastMonth }
+            .groupingBy {it.title}
+            .eachSumBy {it.rent.toInt()}
+        Log.d(javaClass.simpleName, "${test2}")
+
+
 
         val lineEntry = ArrayList<Entry>()
         lineEntry.add(Entry(20f, 10f))
@@ -81,7 +96,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
 
 
-    private fun showPieChart() {
+    private fun setPieChart(contracts: List<Contract>) {
         val pieEntries: ArrayList<PieEntry> = ArrayList()
         val label = "type"
 
@@ -123,7 +138,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.pieChart.description.text = ""
     }
 
-    private fun setBarChart() {
+    private fun setBarChart(contracts: List<Contract>) {
         val valueList = ArrayList<Double>()
         val entries: ArrayList<BarEntry> = ArrayList()
         val title = "Title"
