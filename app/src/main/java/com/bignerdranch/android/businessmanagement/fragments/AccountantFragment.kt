@@ -48,7 +48,6 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
 
         viewModel.fetchAccountant()
 
-
         viewModel.observeAccountantList().observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, "${it}")
             Log.d(javaClass.simpleName, "${it.first}")

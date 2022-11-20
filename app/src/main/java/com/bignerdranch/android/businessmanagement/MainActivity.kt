@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import com.bignerdranch.android.businessmanagement.databinding.ActivityMainBinding
 import com.bignerdranch.android.businessmanagement.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        viewModel.fetchContract()
+        viewModel.fetchAppointment()
+
         super.onCreate(savedInstanceState)
 //        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
@@ -39,8 +44,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        viewModel.fetchContract()
-        viewModel.fetchAppointment()
     }
 
     private fun changeFragment(fragment: Fragment) =

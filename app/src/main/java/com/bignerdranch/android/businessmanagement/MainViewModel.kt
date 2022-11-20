@@ -15,6 +15,10 @@ import com.itextpdf.text.Font
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -134,8 +138,8 @@ class MainViewModel: ViewModel() {
 
         accountantList = MutableLiveData(
             Pair(
-                contractList.value!!
-                    .filter { it.start.split('/')[0].toInt() == currentMonth }
+                contractList.value
+                !!.filter { it.start.split('/')[0].toInt() == currentMonth }
                     .groupingBy {it.title}
                     .eachSumBy {it.rent.toInt()},
                 contractList.value!!

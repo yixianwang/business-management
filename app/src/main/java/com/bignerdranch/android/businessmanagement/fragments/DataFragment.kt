@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 
 class DataFragment : Fragment(R.layout.fragment_data) {
@@ -28,6 +29,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
         setLineChartData()
         showPieChart()
+        setBarChart()
     }
 
     private fun setLineChartData() {
@@ -55,15 +57,20 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         lineEntry2.add(Entry(60f, 5f))
 
         val lineDataSet2 = LineDataSet(lineEntry2, "Second")
-        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
 
-//        val data = LineData(xvalue, lineDataSet)
+        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+//        val data = LineData(lineDataSet)
         val data = LineData(lineDataSet, lineDataSet2)
 
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
 //        binding.lineChart.animateXY(3000, 3000)
+
+        val xAxisLabels = listOf("1a", "2a", "3", "4", "5")
+        binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
     }
+
+
 
     private fun showPieChart() {
         val pieEntries: ArrayList<PieEntry> = ArrayList()
@@ -102,11 +109,37 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         val pieData = PieData(pieDataSet)
         //showing the value of the entries, default true if not set
         pieData.setDrawValues(true)
-        binding.pieChartView.data = pieData
-        binding.pieChartView.invalidate()
+        binding.pieChart.data = pieData
+        binding.pieChart.invalidate()
     }
 
+    private fun setBarChart() {
+        val valueList = ArrayList<Double>()
+        val entries: ArrayList<BarEntry> = ArrayList()
+        val title = "Title"
 
+        //input data
+        for (i in 0..5) {
+            valueList.add(i * 100.1)
+        }
+
+        //fit the data into a bar
+
+        //fit the data into a bar
+        for (i in 0 until valueList.size) {
+            val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
+            entries.add(barEntry)
+        }
+
+        val barDataSet = BarDataSet(entries, title)
+
+        val data = BarData(barDataSet)
+        binding.barChart.data = data
+        binding.barChart.invalidate()
+
+        val xAxisLabels = listOf("1a", "2a", "3", "4", "5", "6")
+        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+    }
 }
 
 
