@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -106,8 +107,11 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
         }
 
         binding.btnGeneratePdf.setOnClickListener {
-            viewModel.generatePDF(requireContext())
-            binding.layoutViewAndShareBtn.isVisible = true
+            if (viewModel.generatePDF(requireContext())) {
+                binding.layoutViewAndShareBtn.isVisible = true
+            } else {
+                Toast.makeText(context, "Click to quick! Please refresh current page to get data", Toast.LENGTH_LONG).show()
+            }
         }
 
         binding.btnViewPdf.setOnClickListener {

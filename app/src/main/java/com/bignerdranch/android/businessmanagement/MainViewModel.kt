@@ -140,7 +140,10 @@ class MainViewModel: ViewModel() {
         )
     }
 
-    fun generatePDF(context: Context) {
+    fun generatePDF(context: Context): Boolean {
+        if (accountantList.value == null) {
+            return false
+        }
         val path = context.getExternalFilesDir(null)!!.absolutePath.toString() + "/summary.pdf"
         val file = File(path)
 
@@ -189,6 +192,7 @@ class MainViewModel: ViewModel() {
         document.close()
         Log.d(javaClass.simpleName, "$path")
         Toast.makeText(context, "Successfully creating summary.pdf", Toast.LENGTH_LONG).show()
+        return true
     }
 
 }
