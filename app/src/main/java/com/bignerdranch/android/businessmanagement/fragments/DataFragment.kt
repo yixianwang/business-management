@@ -11,11 +11,13 @@ import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
 import com.bignerdranch.android.businessmanagement.model.Contract
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class DataFragment : Fragment(R.layout.fragment_data) {
@@ -35,8 +37,8 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
     //initializing colors for the entries
     private val colors: ArrayList<Int> = arrayListOf(
-//                Color.parseColor("#000000"),
-//                Color.parseColor("#012731"),
+        Color.parseColor("#8b7765"),
+        Color.parseColor("#ffa500"),
         Color.parseColor("#2E3F62"),
         Color.parseColor("#056F57"),
         Color.parseColor("#012731"),
@@ -113,31 +115,6 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             data.addDataSet(lineDataSet)
         }
 
-
-//        val lineEntry = ArrayList<Entry>()
-//        lineEntry.add(Entry(20f, 10f))
-//        lineEntry.add(Entry(30f, 1f))
-//        lineEntry.add(Entry(40f, 2f))
-//        lineEntry.add(Entry(50f, 3f))
-//        lineEntry.add(Entry(60f, 4f))
-//
-//        val lineDataSet = LineDataSet(lineEntry, "First")
-//        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
-//
-//        val lineEntry2 = ArrayList<Entry>()
-//        lineEntry2.add(Entry(20f, 1f))
-//        lineEntry2.add(Entry(30f, 2f))
-//        lineEntry2.add(Entry(40f, 3f))
-//        lineEntry2.add(Entry(50f, 4f))
-//        lineEntry2.add(Entry(60f, 5f))
-//
-//        val lineDataSet2 = LineDataSet(lineEntry2, "Second")
-//
-//
-////        val data = LineData()
-//        data.addDataSet(lineDataSet)
-//        data.addDataSet(lineDataSet2)
-
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
 //        binding.lineChart.animateXY(3000, 3000)
@@ -166,8 +143,6 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             pieEntries.add(PieEntry(myPieData[key]!!.toFloat(), "House#${key}"))
         }
 
-
-
         //collecting the entries with label name
         val pieDataSet = PieDataSet(pieEntries, label)
         //setting text size of the value
@@ -188,25 +163,20 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             .filter { it.s_year.toInt() == MainViewModel.currentYear }
             .groupingBy { it.s_month }
             .eachSumBy { it.rent.toInt() }
+            .toList().sortedBy { (key, value) -> key}.toMap()
         Log.d(javaClass.simpleName, "myBarData ${myBarData}")
 
-
-        val valueList = ArrayList<Double>()
         val entries: ArrayList<BarEntry> = ArrayList()
-        val title = "Title"
+        val title = "Monthly Income In Total"
 
-        //input data
-        for (i in 0..5) {
-            valueList.add(i * 100.1)
-        }
-
-        //fit the data into a bar
-
-        //fit the data into a bar
-        for (i in 0 until valueList.size) {
-            val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
+//        var xAxisLabels = mutableListOf<String>()
+        for ((month, sum) in myBarData) {
+            val barEntry = BarEntry(month.toFloat(), sum.toFloat())
             entries.add(barEntry)
+//            xAxisLabels.add("${month}")
         }
+
+//        Log.d(javaClass.simpleName, "month ${xAxisLabels}")
 
         val barDataSet = BarDataSet(entries, title)
 
@@ -214,9 +184,60 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.barChart.data = data
         binding.barChart.invalidate()
 
-        val xAxisLabels = listOf("1a", "2a", "3", "4", "5", "6")
-        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+//        val xAxisLabels = listOf("1a", "2a")
+//        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
         binding.barChart.description.text = ""
+
+        val xAxis: XAxis = binding.barChart.getXAxis()
+        xAxis.position = XAxisPosition.TOP
+        xAxis.textSize = 10f
+        xAxis.textColor = Color.RED
+        xAxis.setDrawAxisLine(true)
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float, axis: AxisBase): String {
+                return "1"
+            }
+        }
+
+        val xAxisLabels = listOf("1a", "2a")
+        binding.barChart.xAxis.valueFormatter.getAxisLabel(1f, binding.barChart.getXAxis())
+
+
+        // test
+//        val myBarData = contractList
+//            .filter { it.s_year.toInt() == MainViewModel.currentYear }
+//            .groupingBy { it.s_month }
+//            .eachSumBy { it.rent.toInt() }
+//        Log.d(javaClass.simpleName, "myBarData ${myBarData}")
+//
+//
+//        val valueList = ArrayList<Double>()
+//        val entries: ArrayList<BarEntry> = ArrayList()
+//        val title = "Title"
+//
+//        //input data
+//        for (i in 0..5) {
+//            valueList.add(i * 100.1)
+//        }
+//
+//        //fit the data into a bar
+//
+//        //fit the data into a bar
+//        for (i in 0 until valueList.size) {
+//            val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
+//            entries.add(barEntry)
+//        }
+//
+//        val barDataSet = BarDataSet(entries, title)
+//
+//        val data = BarData(barDataSet)
+//        binding.barChart.data = data
+//        binding.barChart.invalidate()
+//
+//        val xAxisLabels = listOf("1a", "2a")
+//        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
+//        binding.barChart.description.text = ""
     }
 }
 
