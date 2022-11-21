@@ -32,12 +32,53 @@
                 />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home"
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rv_home"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:listitem="@layout/row_home"-->
+<!--            />-->
+
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/row_home"
-            />
+            android:padding="10dp"
+            >
+            <TableRow
+                android:background="@color/coloGreen">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/col1"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Under Contract Right Now"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:layout_weight="4"
+                    android:gravity="center_horizontal"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="The Most Recent Upcoming Appointment"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:layout_weight="4"
+                    android:gravity="center_horizontal"
+                    />
+            </TableRow>
+        </TableLayout>
+
 
 
 
