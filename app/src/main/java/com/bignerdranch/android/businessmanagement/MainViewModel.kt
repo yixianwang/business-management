@@ -43,8 +43,14 @@ class MainViewModel: ViewModel() {
     fun addNewContract(title: String,
                        location: String,
                        rent: String,
-                       start: String,
-                       end: String,
+                       s_month: String,
+                       s_date: String,
+                       s_year: String,
+
+                       e_month: String,
+                       e_date: String,
+                       e_year: String,
+
                        duration: String,
                        note: String,
                        name: String,
@@ -53,8 +59,13 @@ class MainViewModel: ViewModel() {
             title = title,
             location = location,
             rent = rent,
-            start = start,
-            end = end,
+            s_month = s_month,
+            s_date = s_date,
+            s_year = s_year,
+
+            e_month = e_month,
+            e_date = e_date,
+            e_year = e_year,
             duration = duration,
             note = note,
             name = name,
@@ -128,12 +139,12 @@ class MainViewModel: ViewModel() {
 
         accountantList = MutableLiveData(
             Pair(
-                contractList.value
-                !!.filter { it.start.split('/')[0].toInt() == MainViewModel.currentMonth }
+                contractList.value!!
+                    .filter { it.s_month.toInt() == MainViewModel.currentMonth }
                     .groupingBy {it.title}
                     .eachSumBy {it.rent.toInt()},
                 contractList.value!!
-                    .filter { it.start.split('/')[0].toInt() == MainViewModel.lastMonth }
+                    .filter { it.s_month.toInt() == MainViewModel.lastMonth }
                     .groupingBy {it.title}
                     .eachSumBy {it.rent.toInt()}
             )
@@ -144,6 +155,9 @@ class MainViewModel: ViewModel() {
         if (accountantList.value == null) {
             return false
         }
+
+        Log.d(javaClass.simpleName, "xxx${accountantList.value}")
+
         val path = context.getExternalFilesDir(null)!!.absolutePath.toString() + "/summary.pdf"
         val file = File(path)
 
@@ -178,6 +192,7 @@ class MainViewModel: ViewModel() {
             val row = "HouseID: #${i} \n" +
                     "Cumulative Sum(Current Month): ${accountantList.value!!.first.getOrDefault(i, "0")}$ \n" +
                     "Last Month Sum: ${accountantList.value!!.second.getOrDefault(i, "0")}$ \n"
+            Log.d(javaClass.simpleName, "${row}")
             paragraph.add(Paragraph(row, font))
             paragraph.add(Paragraph("\n", font))
         }

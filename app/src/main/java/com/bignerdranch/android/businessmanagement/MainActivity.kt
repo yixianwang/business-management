@@ -3,6 +3,7 @@ package com.bignerdranch.android.businessmanagement
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.bignerdranch.android.businessmanagement.databinding.ActivityMainBinding
@@ -12,6 +13,11 @@ import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
+
+    fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

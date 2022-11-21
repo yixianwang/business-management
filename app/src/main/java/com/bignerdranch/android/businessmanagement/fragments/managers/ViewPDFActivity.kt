@@ -17,7 +17,7 @@ class ViewPDFActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val path = this.getExternalFilesDir(null)!!.absolutePath.toString() + "/users.pdf"
+        val path = this.getExternalFilesDir(null)!!.absolutePath.toString() + "/summary.pdf"
         Log.d(javaClass.simpleName, "${path}")
         val file = File(path)
         binding.pdfViewer

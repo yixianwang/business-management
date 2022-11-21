@@ -2,15 +2,13 @@ package com.bignerdranch.android.businessmanagement.fragments
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.StrictMode
 import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
@@ -144,12 +142,8 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 val chooser = Intent.createChooser(intent, "Share using....")
                 startActivity(chooser)
-
             }
-
-
         }
-
     }
 
     private fun uriFromFile(context: Context, file:File): Uri {
@@ -159,5 +153,4 @@ class AccountantFragment : Fragment(R.layout.fragment_accountant) {
             return Uri.fromFile(file)
         }
     }
-
 }

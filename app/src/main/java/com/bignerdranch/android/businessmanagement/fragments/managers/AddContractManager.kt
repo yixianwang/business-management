@@ -39,8 +39,17 @@ class AddContractManager : AppCompatActivity() {
                         binding.etTitle.text.toString(),
                         binding.etLocation.text.toString(),
                         binding.etRent.text.toString(),
-                        "${binding.etStartDate.month + 1}/${binding.etStartDate.dayOfMonth}/${binding.etStartDate.year}",
-                        "${binding.etEndDate.month + 1}/${binding.etEndDate.dayOfMonth}/${binding.etEndDate.year}",
+//                        "${binding.etStartDate.month + 1}/${binding.etStartDate.dayOfMonth}/${binding.etStartDate.year}",
+
+                        "${binding.etStartDate.month + 1}",
+                        "${binding.etStartDate.dayOfMonth}",
+                        "${binding.etStartDate.year}",
+
+//                        "${binding.etEndDate.month + 1}/${binding.etEndDate.dayOfMonth}/${binding.etEndDate.year}",
+                        "${binding.etEndDate.month + 1}",
+                        "${binding.etEndDate.dayOfMonth}",
+                        "${binding.etEndDate.year}",
+
                         binding.etDuration.text.toString(),
                         binding.etNote.text.toString(),
                         binding.etName.text.toString(),
