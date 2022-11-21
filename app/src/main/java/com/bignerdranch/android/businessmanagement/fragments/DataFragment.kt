@@ -46,26 +46,15 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         fold(0) { acc, elem -> acc + selector(elem) }
 
     private fun setLineChartData(contractList: List<Contract>) {
-        val test = contractList.filter { it.s_month.split('/')[0].toInt() == MainViewModel.currentMonth }
-            .groupingBy {it.title}
-            .eachSumBy {it.rent.toInt()}
-        Log.d(javaClass.simpleName, "${test}")
-
-        val test2 = contractList.filter { it.s_month.split('/')[0].toInt() == MainViewModel.lastMonth }
-            .groupingBy {it.title}
-            .eachSumBy {it.rent.toInt()}
-        Log.d(javaClass.simpleName, "${test2}")
+        val myEachLineData = contractList
+            .filter { it.title.toInt() == 1 }
+            .filter { it.s_year.toInt() == MainViewModel.currentYear }
+            .groupingBy { it.s_month }
+            .eachSumBy { it.rent.toInt() }
+        Log.d(javaClass.simpleName, "myEachLineData ${myEachLineData}")
 
 
-        data class Key(val title: String, val name: String)
-        fun Contract.toKey() = Key("1", "tom")
 
-        val test3 = contractList
-            .groupingBy {it.title}
-            .eachSumBy {it.rent.toInt()}
-
-        Log.d(javaClass.simpleName, "${contractList}")
-        Log.d(javaClass.simpleName, "${test3}")
 
         val lineEntry = ArrayList<Entry>()
         lineEntry.add(Entry(20f, 10f))
@@ -105,9 +94,15 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
 
 
-    private fun setPieChart(contracts: List<Contract>) {
+    private fun setPieChart(contractList: List<Contract>) {
+        val myPieData = contractList
+            .filter { it.s_year.toInt() == MainViewModel.currentYear }
+            .groupingBy { it.title }
+            .eachSumBy { it.rent.toInt() }
+        Log.d(javaClass.simpleName, "myPieData ${myPieData}")
+
         val pieEntries: ArrayList<PieEntry> = ArrayList()
-        val label = "type"
+        val label = "HouseID"
 
         //initializing data
         val typeAmountMap: MutableMap<String, Int> = HashMap()
@@ -147,7 +142,14 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.pieChart.description.text = ""
     }
 
-    private fun setBarChart(contracts: List<Contract>) {
+    private fun setBarChart(contractList: List<Contract>) {
+        val myBarData = contractList
+            .filter { it.s_year.toInt() == MainViewModel.currentYear }
+            .groupingBy { it.s_month }
+            .eachSumBy { it.rent.toInt() }
+        Log.d(javaClass.simpleName, "myBarData ${myBarData}")
+
+
         val valueList = ArrayList<Double>()
         val entries: ArrayList<BarEntry> = ArrayList()
         val title = "Title"

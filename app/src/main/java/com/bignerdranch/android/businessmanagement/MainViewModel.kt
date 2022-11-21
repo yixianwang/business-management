@@ -1,5 +1,6 @@
 package com.bignerdranch.android.businessmanagement
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -28,7 +29,11 @@ import java.util.Date
 
 class MainViewModel: ViewModel() {
     companion object {
-        var currentMonth = SimpleDateFormat("yyyy.MM.dd").format(Date()).split('.')[1].toInt()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("yyyy.MM.dd")
+        var currentYear = sdf.format(Date()).split('.')[0].toInt()
+        var currentMonth = sdf.format(Date()).split('.')[1].toInt()
+        var currentDay = sdf.format(Date()).split('.')[2].toInt()
         var lastMonth = if (currentMonth == 1) 12 else currentMonth - 1
     }
     private var contractList = MutableLiveData<List<Contract>>()
