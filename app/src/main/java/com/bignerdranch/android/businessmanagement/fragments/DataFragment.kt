@@ -33,6 +33,35 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
     private val binding get() = _binding!!
 
+    //initializing colors for the entries
+    private val colors: ArrayList<Int> = arrayListOf(
+//                Color.parseColor("#000000"),
+//                Color.parseColor("#012731"),
+        Color.parseColor("#2E3F62"),
+        Color.parseColor("#056F57"),
+        Color.parseColor("#012731"),
+        Color.parseColor("#278A5B"),
+        Color.parseColor("#092256"),
+        Color.parseColor("#373021"),
+        Color.parseColor("#151F4C"),
+        Color.parseColor("#242A1D"),
+        Color.parseColor("#1560BD"),
+        Color.parseColor("#15736B"),
+        Color.parseColor("#1C1E13"),
+        Color.parseColor("#1C7C7D"),
+        Color.parseColor("#0C1911"),
+        Color.parseColor("#240C02"),
+        Color.parseColor("#242E16"),
+        Color.parseColor("#27504B"),
+        Color.parseColor("#2D383A"),
+        Color.parseColor("#304B6A"),
+        Color.parseColor("#325D52"),
+        Color.parseColor("#371D09"),
+        Color.parseColor("#37290E"),
+        Color.parseColor("#000000"),
+        Color.parseColor("#704F50"),
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDataBinding.bind(view)
@@ -75,7 +104,8 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             }
 
             val lineDataSet = LineDataSet(lineEntry, "House#${titleList[i]}")
-            lineDataSet.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+//            lineDataSet.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+            lineDataSet.color = colors.get(i)
 
             Log.d(javaClass.simpleName, "lineDataSet ${lineDataSet}")
 
@@ -129,31 +159,14 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             .eachSumBy { it.rent.toInt() }
         Log.d(javaClass.simpleName, "myPieData ${myPieData}")
 
+        val label = ""
+
         val pieEntries: ArrayList<PieEntry> = ArrayList()
-        val label = "HouseID"
-
-        //initializing data
-        val typeAmountMap: MutableMap<String, Int> = HashMap()
-        typeAmountMap["Toys"] = 200
-        typeAmountMap["Snacks"] = 230
-        typeAmountMap["Clothes"] = 100
-        typeAmountMap["Stationary"] = 500
-        typeAmountMap["Phone"] = 50
-
-        //initializing colors for the entries
-        val colors: ArrayList<Int> = ArrayList()
-        colors.add(Color.parseColor("#304567"))
-        colors.add(Color.parseColor("#309967"))
-        colors.add(Color.parseColor("#476567"))
-        colors.add(Color.parseColor("#890567"))
-        colors.add(Color.parseColor("#a35567"))
-        colors.add(Color.parseColor("#ff5f67"))
-        colors.add(Color.parseColor("#3ca567"))
-
-        //input data and fit data into pie chart entry
-        for (type in typeAmountMap.keys) {
-            pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
+        for (key in myPieData.keys) {
+            pieEntries.add(PieEntry(myPieData[key]!!.toFloat(), "House#${key}"))
         }
+
+
 
         //collecting the entries with label name
         val pieDataSet = PieDataSet(pieEntries, label)
