@@ -7,13 +7,15 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
 import com.bignerdranch.android.businessmanagement.model.Contract
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class DataFragment : Fragment(R.layout.fragment_data) {
@@ -22,6 +24,8 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             return DataFragment()
         }
     }
+
+    private val rnd = Random()
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -46,39 +50,63 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         fold(0) { acc, elem -> acc + selector(elem) }
 
     private fun setLineChartData(contractList: List<Contract>) {
-        val myEachLineData = contractList
-            .filter { it.title.toInt() == 1 }
-            .filter { it.s_year.toInt() == MainViewModel.currentYear }
-            .groupingBy { it.s_month }
+        val titleList = contractList
+            .groupingBy { it.title }
             .eachSumBy { it.rent.toInt() }
-        Log.d(javaClass.simpleName, "myEachLineData ${myEachLineData}")
-
-
-
-
-        val lineEntry = ArrayList<Entry>()
-        lineEntry.add(Entry(20f, 10f))
-        lineEntry.add(Entry(30f, 1f))
-        lineEntry.add(Entry(40f, 2f))
-        lineEntry.add(Entry(50f, 3f))
-        lineEntry.add(Entry(60f, 4f))
-
-        val lineDataSet = LineDataSet(lineEntry, "First")
-        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
-
-        val lineEntry2 = ArrayList<Entry>()
-        lineEntry2.add(Entry(20f, 1f))
-        lineEntry2.add(Entry(30f, 2f))
-        lineEntry2.add(Entry(40f, 3f))
-        lineEntry2.add(Entry(50f, 4f))
-        lineEntry2.add(Entry(60f, 5f))
-
-        val lineDataSet2 = LineDataSet(lineEntry2, "Second")
-
+            .keys.toList()
+        Log.d(javaClass.simpleName, "titleList ${titleList}")
 
         val data = LineData()
-        data.addDataSet(lineDataSet)
-        data.addDataSet(lineDataSet2)
+        for (i in titleList.indices) {
+            Log.d(javaClass.simpleName, "titleList ${i} ${titleList[i]}")
+            val myEachLineData = contractList
+                .filter { it.title.toInt() == titleList[i].toInt() }
+                .filter { it.s_year.toInt() == MainViewModel.currentYear }
+                .groupingBy { it.s_month }
+                .eachSumBy { it.rent.toInt() }
+                .toList().sortedBy { (key, value) -> key}.toMap()
+
+            Log.d(javaClass.simpleName, "myEachLineData ${myEachLineData}")
+
+            val lineEntry = ArrayList<Entry>()
+            for ((key, value) in myEachLineData) {
+                Log.d(javaClass.simpleName, "key-value ${key} ${value}")
+                lineEntry.add(Entry(key.toFloat(), value.toFloat()))
+            }
+
+            val lineDataSet = LineDataSet(lineEntry, "House#${titleList[i]}")
+            lineDataSet.color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+
+            Log.d(javaClass.simpleName, "lineDataSet ${lineDataSet}")
+
+//            lineDataSet.color = Color.parseColor("#a35567")
+            data.addDataSet(lineDataSet)
+        }
+
+
+//        val lineEntry = ArrayList<Entry>()
+//        lineEntry.add(Entry(20f, 10f))
+//        lineEntry.add(Entry(30f, 1f))
+//        lineEntry.add(Entry(40f, 2f))
+//        lineEntry.add(Entry(50f, 3f))
+//        lineEntry.add(Entry(60f, 4f))
+//
+//        val lineDataSet = LineDataSet(lineEntry, "First")
+//        lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+//
+//        val lineEntry2 = ArrayList<Entry>()
+//        lineEntry2.add(Entry(20f, 1f))
+//        lineEntry2.add(Entry(30f, 2f))
+//        lineEntry2.add(Entry(40f, 3f))
+//        lineEntry2.add(Entry(50f, 4f))
+//        lineEntry2.add(Entry(60f, 5f))
+//
+//        val lineDataSet2 = LineDataSet(lineEntry2, "Second")
+//
+//
+////        val data = LineData()
+//        data.addDataSet(lineDataSet)
+//        data.addDataSet(lineDataSet2)
 
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
