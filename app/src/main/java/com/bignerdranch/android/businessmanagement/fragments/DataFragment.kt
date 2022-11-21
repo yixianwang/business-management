@@ -35,7 +35,6 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
     private val binding get() = _binding!!
 
-    //initializing colors for the entries
     private val colors: ArrayList<Int> = arrayListOf(
         Color.parseColor("#8b7765"),
         Color.parseColor("#ffa500"),
@@ -145,15 +144,12 @@ class DataFragment : Fragment(R.layout.fragment_data) {
             pieEntries.add(PieEntry(myPieData[key]!!.toFloat(), "House#${key}"))
         }
 
-        //collecting the entries with label name
         val pieDataSet = PieDataSet(pieEntries, label)
-        //setting text size of the value
         pieDataSet.valueTextSize = 12f
-        //providing color list for coloring different entries
+
         pieDataSet.colors = colors
-        //grouping the data set from entry to chart
         val pieData = PieData(pieDataSet)
-        //showing the value of the entries, default true if not set
+
         pieData.setDrawValues(true)
         binding.pieChart.data = pieData
         binding.pieChart.invalidate()
@@ -171,14 +167,10 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         val entries: ArrayList<BarEntry> = ArrayList()
         val title = "Monthly Income In Total"
 
-//        var xAxisLabels = mutableListOf<String>()
         for ((month, sum) in myBarData) {
             val barEntry = BarEntry(month.toFloat(), sum.toFloat())
             entries.add(barEntry)
-//            xAxisLabels.add("${month}")
         }
-
-//        Log.d(javaClass.simpleName, "month ${xAxisLabels}")
 
         val barDataSet = BarDataSet(entries, title)
 
