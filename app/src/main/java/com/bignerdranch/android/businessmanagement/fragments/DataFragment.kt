@@ -117,6 +117,8 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+        binding.lineChart.xAxis.granularity = 1f
 //        binding.lineChart.animateXY(3000, 3000)
 
 //        val xAxisLabels = listOf("a", "b", "c", "d", "e")
@@ -183,26 +185,28 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         val data = BarData(barDataSet)
         binding.barChart.data = data
         binding.barChart.invalidate()
-
+        binding.barChart.description.text = ""
 //        val xAxisLabels = listOf("1a", "2a")
 //        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
-        binding.barChart.description.text = ""
 
+        // test xaxis for barChart
         val xAxis: XAxis = binding.barChart.getXAxis()
+        binding.barChart.xAxis.granularity = 1f
         xAxis.position = XAxisPosition.TOP
         xAxis.textSize = 10f
-        xAxis.textColor = Color.RED
+//        xAxis.textColor = Color.RED
         xAxis.setDrawAxisLine(true)
         xAxis.setDrawGridLines(false)
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float, axis: AxisBase): String {
-                return "1"
-            }
-        }
 
-        val xAxisLabels = listOf("1a", "2a")
-        binding.barChart.xAxis.valueFormatter.getAxisLabel(1f, binding.barChart.getXAxis())
+//        xAxis.valueFormatter = object : ValueFormatter() {
+//            override fun getFormattedValue(value: Float, axis: AxisBase): String {
+//                return "1"
+//            }
+//        }
 
+
+//        binding.barChart.xAxis.valueFormatter.getAxisLabel(1f, binding.barChart.getXAxis())
+        // end
 
         // test
 //        val myBarData = contractList
