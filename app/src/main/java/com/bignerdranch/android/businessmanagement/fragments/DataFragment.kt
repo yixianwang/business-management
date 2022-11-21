@@ -186,62 +186,15 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         binding.barChart.data = data
         binding.barChart.invalidate()
         binding.barChart.description.text = ""
-//        val xAxisLabels = listOf("1a", "2a")
-//        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
 
-        // test xaxis for barChart
         val xAxis: XAxis = binding.barChart.getXAxis()
         binding.barChart.xAxis.granularity = 1f
         xAxis.position = XAxisPosition.TOP
         xAxis.textSize = 10f
 //        xAxis.textColor = Color.RED
         xAxis.setDrawAxisLine(true)
-        xAxis.setDrawGridLines(false)
+        xAxis.setDrawGridLines(true)
 
-//        xAxis.valueFormatter = object : ValueFormatter() {
-//            override fun getFormattedValue(value: Float, axis: AxisBase): String {
-//                return "1"
-//            }
-//        }
-
-
-//        binding.barChart.xAxis.valueFormatter.getAxisLabel(1f, binding.barChart.getXAxis())
-        // end
-
-        // test
-//        val myBarData = contractList
-//            .filter { it.s_year.toInt() == MainViewModel.currentYear }
-//            .groupingBy { it.s_month }
-//            .eachSumBy { it.rent.toInt() }
-//        Log.d(javaClass.simpleName, "myBarData ${myBarData}")
-//
-//
-//        val valueList = ArrayList<Double>()
-//        val entries: ArrayList<BarEntry> = ArrayList()
-//        val title = "Title"
-//
-//        //input data
-//        for (i in 0..5) {
-//            valueList.add(i * 100.1)
-//        }
-//
-//        //fit the data into a bar
-//
-//        //fit the data into a bar
-//        for (i in 0 until valueList.size) {
-//            val barEntry = BarEntry(i.toFloat(), valueList[i].toFloat())
-//            entries.add(barEntry)
-//        }
-//
-//        val barDataSet = BarDataSet(entries, title)
-//
-//        val data = BarData(barDataSet)
-//        binding.barChart.data = data
-//        binding.barChart.invalidate()
-//
-//        val xAxisLabels = listOf("1a", "2a")
-//        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(xAxisLabels)
-//        binding.barChart.description.text = ""
     }
 }
 
