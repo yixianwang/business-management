@@ -15,20 +15,6 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Year Monthly Income For Each House:"
-            android:textSize="24sp"
-            android:textStyle="bold|italic"
-            />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:id="@+id/line_chart" />
-
-        <TextView
-            android:layout_marginTop="35dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Current Month Accumulative Income For Each House:"
             android:textSize="24sp"
             android:textStyle="bold|italic"
@@ -39,6 +25,22 @@
             android:layout_height="400dp"
             android:id="@+id/pie_chart"
             android:layout_below="@+id/line_chart"/>
+
+        <TextView
+            android:layout_marginTop="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Year Monthly Income For Each House:"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/line_chart" />
+
+
 
         <TextView
             android:layout_marginTop="35dp"

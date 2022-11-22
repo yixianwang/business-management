@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
@@ -17,6 +19,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private val viewModel: MainViewModel by activityViewModels()
+
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
@@ -25,5 +29,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
+        if (viewModel.observeAccountantList().value == null) {
+            binding.tvCurrentAvailableHouses.text = "error"
+
+        }
+
+//        viewModel.observeAccountantList().observe(viewLifecycleOwner) {
+//
+//        }
     }
 }

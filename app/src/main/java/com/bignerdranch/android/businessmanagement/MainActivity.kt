@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.fetchContract()
         viewModel.fetchAppointment()
+        if (viewModel.observeContractList().value != null) {
+            viewModel.fetchAccountant()
+        }
 
         super.onCreate(savedInstanceState)
 //        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
