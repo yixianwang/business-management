@@ -251,6 +251,8 @@ class MainViewModel: ViewModel() {
     fun insertHouse(id: String) {
         val house = House(id)
         val local = allHouseList.value
+        // fetchAllHousesList has to be called in MainActivity before everything
+        Log.d(javaClass.simpleName, "xxx local ${local}")
         local?.let {
             if (it.contains(house)) return@let
             dbHelp.createNewHouse(house, allHouseList)
@@ -276,12 +278,13 @@ class MainViewModel: ViewModel() {
         return allHouseList
     }
 
-//    fun countHouse(house: House): Boolean {
-//        if (allHouseList.value?.contains(house) == true) {
-//            return true
-//        }
-//        return false
-//    }
+    fun countHouse(id: String): Boolean {
+        val house = House(id)
+        if (allHouseList.value?.contains(house) == true) {
+            return true
+        }
+        return false
+    }
 
     // Table Data
     private var homeTableData = MediatorLiveData<List<HomeSummary>>().apply {

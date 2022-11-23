@@ -33,6 +33,7 @@ class AddContractManager : AppCompatActivity() {
                 TextUtils.isEmpty(binding.etNote.text.toString()) -> Toast.makeText(this, "You must input note", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etName.text.toString()) -> Toast.makeText(this, "You must input name", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etPhone.text.toString()) -> Toast.makeText(this, "You must input phone", Toast.LENGTH_SHORT).show()
+                !viewModel.countHouse(binding.etTitle.text.toString()) -> Toast.makeText(this, "Please input valid HouseID. All Available Houses: ${viewModel.observeAllHouseList().value}", Toast.LENGTH_SHORT).show()
 
                 else -> {
                     viewModel.addNewContract(

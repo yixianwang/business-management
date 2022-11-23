@@ -30,12 +30,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".fragments.managers.AddContractManager"
             android:label="AddContractManager" />
+
         <activity
             android:name=".fragments.managers.AddAppointmentManager"
             android:label="AddAppointmentManager" />
+
         <activity
             android:name=".fragments.managers.ViewPDFActivity"
             android:label="ViewPDFActivity"
