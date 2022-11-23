@@ -99,7 +99,9 @@ class MainViewModel: ViewModel() {
                           deposit: String,
                           name: String,
                           phone: String,
-                          startDate: String) {
+                          year: String,
+                          month: String,
+                          date: String) {
         val appointment = Appointment(
             title = title,
             location = location,
@@ -107,7 +109,9 @@ class MainViewModel: ViewModel() {
             note = note,
             name = name,
             phone = phone,
-            startDate = startDate
+            s_year = year,
+            s_month = month,
+            s_date = date
         )
         dbHelp.createAppointment(appointment, appointmentList)
     }

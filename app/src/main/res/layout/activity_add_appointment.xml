@@ -46,10 +46,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="StartDate" />
-        <EditText
+        <DatePicker
             android:id="@+id/et_start_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
     </LinearLayout>
 
     <LinearLayout

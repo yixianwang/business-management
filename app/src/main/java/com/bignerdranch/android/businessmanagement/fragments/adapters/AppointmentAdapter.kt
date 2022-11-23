@@ -24,7 +24,11 @@ class AppointmentAdapter(private val viewModel: MainViewModel)
                     && oldItem.deposit == newItem.deposit
                     && oldItem.name == newItem.name
                     && oldItem.phone == newItem.phone
-                    && oldItem.startDate == newItem.startDate
+                    && oldItem.s_year == newItem.s_year
+                    && oldItem.s_month == newItem.s_month
+                    && oldItem.s_date == newItem.s_date
+
+
                     && oldItem.timeStamp == newItem.timeStamp
         }
     }
@@ -39,7 +43,7 @@ class AppointmentAdapter(private val viewModel: MainViewModel)
             binding.tvDeposit.text = appointment.deposit
             binding.tvName.text = appointment.name
             binding.tvPhone.text = appointment.phone
-            binding.tvStartDate.text = appointment.startDate
+            binding.tvStartDate.text = appointment.s_month + "/" + appointment.s_date + "/" + appointment.s_year
         }
     }
 
