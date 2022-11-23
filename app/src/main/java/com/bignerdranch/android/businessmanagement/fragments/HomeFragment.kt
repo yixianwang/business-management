@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import com.bignerdranch.android.businessmanagement.MainActivity
 import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
@@ -30,14 +32,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
-        var test = 0
-        viewModel.observeContractList().observe(viewLifecycleOwner) {
-            test += 1
-        }
-        viewModel.observeAppointmentList().observe(viewLifecycleOwner) {
-            test += 1
-        }
-        Log.d(javaClass.simpleName, "test ${test}")
 
+        viewModel.observeHomeTableData().observe(viewLifecycleOwner) {
+//            Log.d(javaClass.simpleName, "${it}")
+        }
+
+        viewModel.observeAllHouseList().observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, "xxx all houses: ${it}")
+        }
+
+
+
+        // buttons
+        binding.btnManageHouse.setOnClickListener {
+            binding.homeTopLayout.isVisible = !binding.homeTopLayout.isVisible
+        }
+
+        binding.butAdd.setOnClickListener {
+//            Log.d(javaClass.simpleName, "xxx ${binding.etManageHouse.text}")
+            viewModel.insertHouse(binding.etManageHouse.text.toString())
+        }
+
+        binding.butRemove.setOnClickListener {
+            viewModel.eraseHouse(binding.etManageHouse.text.toString())
+        }
     }
 }

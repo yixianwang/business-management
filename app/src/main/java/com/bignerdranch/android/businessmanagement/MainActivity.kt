@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.fetchContract()
         viewModel.fetchAppointment()
+        viewModel.fetchAllHousesList()
 
         super.onCreate(savedInstanceState)
 //        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)

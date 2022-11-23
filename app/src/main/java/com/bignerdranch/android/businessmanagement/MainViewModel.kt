@@ -5,11 +5,10 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bignerdranch.android.businessmanagement.model.Accountant
-import com.bignerdranch.android.businessmanagement.model.Appointment
-import com.bignerdranch.android.businessmanagement.model.Contract
+import com.bignerdranch.android.businessmanagement.model.*
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Font
@@ -25,6 +24,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.ArrayList
 import java.util.Date
 
 class MainViewModel: ViewModel() {
@@ -216,7 +216,89 @@ class MainViewModel: ViewModel() {
     }
 
     // Home Fragment
+    // All Houses List--local version for temp use
+//    private var allHouseList = MutableLiveData<MutableList<String>>().apply {
+//        value = mutableListOf()
+//    }
+//
+//    fun insertNewHouse(id: String) {
+//        val local = allHouseList.value
+//        local?.let {
+//            if (it.contains(id)) return@let
+//            it.add(id)
+//            allHouseList.value = it
+//        }
+//    }
+//
+//    fun eraseHouse(id: String) {
+//        allHouseList.value?.let {
+//            if (!it.contains(id)) {
+//                return@let
+//            }
+//            it.remove(id)
+//            allHouseList.value = it
+//        }
+//    }
+//
+//    fun observeAllHouseList(): LiveData<MutableList<String>> {
+//        return allHouseList
+//    }
 
+    // All Houses List--database version
+    private var allHouseList = MutableLiveData<List<House>>()
+//        .apply { value = mutableListOf() }
+
+    fun insertHouse(id: String) {
+        val house = House(id)
+        val local = allHouseList.value
+        local?.let {
+            if (it.contains(house)) return@let
+            dbHelp.createNewHouse(house, allHouseList)
+        }
+    }
+
+    fun eraseHouse(id: String) {
+        val local = allHouseList.value
+        local?.let {
+            for (i in it.indices) {
+                if (it[i].id == id) {
+                    dbHelp.removeHouse(it[i], allHouseList)
+                }
+            }
+        }
+    }
+
+    fun fetchAllHousesList() {
+        dbHelp.fetchAllHousesList(allHouseList)
+    }
+
+    fun observeAllHouseList(): LiveData<List<House>> {
+        return allHouseList
+    }
+
+//    fun countHouse(house: House): Boolean {
+//        if (allHouseList.value?.contains(house) == true) {
+//            return true
+//        }
+//        return false
+//    }
+
+    // Table Data
+    private var homeTableData = MediatorLiveData<List<HomeSummary>>().apply {
+        var count = "1"
+        addSource(contractList) { list1 ->
+            count += "2"
+
+        }
+        addSource(appointmentList) { list2 ->
+            count += "3"
+            value = listOf(HomeSummary(count, "3", "4"))
+        }
+    }
+
+    fun observeHomeTableData(): LiveData<List<HomeSummary>> {
+        return homeTableData
+    }
 
 }
 

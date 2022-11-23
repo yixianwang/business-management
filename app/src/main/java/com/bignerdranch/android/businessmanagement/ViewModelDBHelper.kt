@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.businessmanagement.model.Accountant
 import com.bignerdranch.android.businessmanagement.model.Appointment
 import com.bignerdranch.android.businessmanagement.model.Contract
+import com.bignerdranch.android.businessmanagement.model.House
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ViewModelDBHelper() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val allContracts = "allContracts"
     private val allAppointments = "allAppointments"
+    private val allHouses = "allHouses"
 
     // Contract operation
     // https://firebase.google.com/docs/firestore/query-data/order-limit-data
@@ -110,6 +112,57 @@ class ViewModelDBHelper() {
             .delete()
             .addOnSuccessListener {
                 dbFetchAppointment(appointmentList)
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "fail remove")
+            }
+    }
+
+    // Home Fragment All Houses List
+    private fun dbfetchAllHousesList(allHouseList: MutableLiveData<List<House>>) {
+        db.collection(allHouses)
+            .get()
+            .addOnSuccessListener { result ->
+                Log.d(javaClass.simpleName, "allHousesList fetch ${result!!.documents.size}")
+                // NB: This is done on a background thread
+                allHouseList.postValue(result.documents.mapNotNull {
+                    it.toObject(House::class.java)
+                })
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "allAppointments fetch FAILED ", it)
+            }
+    }
+
+    fun fetchAllHousesList(allHouseList: MutableLiveData<List<House>>) {
+        dbfetchAllHousesList(allHouseList)
+    }
+
+    fun createNewHouse(
+        house: House,
+        allHouseList: MutableLiveData<List<House>>
+    ) {
+        house.firestoreID = db.collection(allAppointments).document().id
+
+        db.collection(allHouses)
+            .add(house)
+            .addOnSuccessListener {
+                dbfetchAllHousesList(allHouseList)
+            }
+            .addOnFailureListener {
+                Log.d(javaClass.simpleName, "fail create")
+            }
+    }
+
+    fun removeHouse(
+        house: House,
+        allHouseList: MutableLiveData<List<House>>
+    ) {
+        db.collection(allHouses)
+            .document(house.firestoreID)
+            .delete()
+            .addOnSuccessListener {
+                dbfetchAllHousesList(allHouseList)
             }
             .addOnFailureListener {
                 Log.d(javaClass.simpleName, "fail remove")
