@@ -284,6 +284,7 @@ class MainViewModel: ViewModel() {
 
     fun countHouse(id: String): Boolean {
         val house = House(id)
+//        Log.d(javaClass.simpleName, "xxx id ${id} all list ${allHouseList.value}")
         if (allHouseList.value?.contains(house) == true) {
             return true
         }
@@ -292,18 +293,34 @@ class MainViewModel: ViewModel() {
 
     // Table Data
     private var homeTableData = MediatorLiveData<List<HomeSummary>>().apply {
-        var data = mutableListOf<HomeSummary>()
-        data.add(HomeSummary("1", "3", "4"))
+        val data = mutableListOf<HomeSummary>()
 
-        addSource(contractList) { list1 ->
-            data.add(HomeSummary("2", "3", "4"))
+        var count = 0
+        addSource(allHouseList) { list ->
+            list?.let {
+                count = it.size
+                Log.d(javaClass.simpleName, "xxx allHouse count ${count}")
+            }
+        }
+
+
+        addSource(contractList) { list ->
+            // find all under contracts
+            val underContracts = list
+                .filter { it.s_year.toInt() <= currentYear }
+                .filter { currentYear <= it.e_year.toInt()}
+                .filter { it.s_month.toInt() <= currentMonth }
+                .filter { currentMonth <= it.e_month.toInt() }
+                .filter { it.s_date.toInt() <= currentDay }
+                .filter { currentDay <= it.e_date.toInt() }
+            Log.d(javaClass.simpleName, "xxx underContracts ${underContracts}")
+        }
+
+        addSource(appointmentList) { list ->
+            data.add(HomeSummary("${11}", "1", "1"))
 
         }
-        addSource(appointmentList) { list2 ->
-//            value = data
-            data.add(HomeSummary("3", "3", "4"))
-            value = data
-        }
+        value = data
     }
 
     fun observeHomeTableData(): LiveData<List<HomeSummary>> {

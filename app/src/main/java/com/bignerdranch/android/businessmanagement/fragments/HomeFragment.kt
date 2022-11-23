@@ -39,6 +39,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = FragmentHomeBinding.bind(view)
 //        binding.etManageHouse.inputType = InputType.TYPE_NULL
 
+        viewModel.fetchAllHousesList()
+
         // buttons
         binding.btnManageHouse.setOnClickListener {
             binding.homeTopLayout.isVisible = !binding.homeTopLayout.isVisible
@@ -58,6 +60,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         // tables
+        viewModel.observeAllHouseList().observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, "xxx all house list ${it}")
+        }
+
+
+
         val ll = binding.tlHome
         viewModel.observeHomeTableData().observe(viewLifecycleOwner) {
 //            Log.d(javaClass.simpleName, "${it}")
@@ -106,5 +114,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ll.addView(row, -1)
             }
         }
+
     }
 }

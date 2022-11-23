@@ -35,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         val accountantFragment = AccountantFragment.newInstance()
         val dataFragment = DataFragment.newInstance()
 
+//        changeFragment(homeFragment)
+        // test acc
         changeFragment(homeFragment)
+
 
         val myBottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         myBottomNavigationView.selectedItemId = R.id.ic_home

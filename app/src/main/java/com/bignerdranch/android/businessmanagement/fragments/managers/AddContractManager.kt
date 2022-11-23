@@ -20,6 +20,8 @@ class AddContractManager : AppCompatActivity() {
         val binding = ActivityAddContractBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.fetchAllHousesList()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.okButton.setOnClickListener {
