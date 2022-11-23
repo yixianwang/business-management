@@ -15,16 +15,11 @@ import com.itextpdf.text.Font
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.ArrayList
 import java.util.Date
 
 class MainViewModel: ViewModel() {
@@ -61,7 +56,7 @@ class MainViewModel: ViewModel() {
                        name: String,
                        phone: String) {
         val contract = Contract(
-            title = title,
+            houseID = title,
             location = location,
             rent = rent,
             s_month = s_month,
@@ -103,7 +98,7 @@ class MainViewModel: ViewModel() {
                           month: String,
                           date: String) {
         val appointment = Appointment(
-            title = title,
+            houseID = title,
             location = location,
             deposit = deposit,
             note = note,
@@ -150,11 +145,11 @@ class MainViewModel: ViewModel() {
             Pair(
                 contractList.value!!
                     .filter { it.s_month.toInt() == MainViewModel.currentMonth }
-                    .groupingBy {it.title}
+                    .groupingBy {it.houseID}
                     .eachSumBy {it.rent.toInt()},
                 contractList.value!!
                     .filter { it.s_month.toInt() == MainViewModel.lastMonth }
-                    .groupingBy {it.title}
+                    .groupingBy {it.houseID}
                     .eachSumBy {it.rent.toInt()}
             )
         )
@@ -313,12 +308,18 @@ class MainViewModel: ViewModel() {
                 .filter { currentMonth <= it.e_month.toInt() }
                 .filter { it.s_date.toInt() <= currentDay }
                 .filter { currentDay <= it.e_date.toInt() }
+                .groupingBy { it.houseID }
+                .eachSumBy { it.duration.toInt() }
             Log.d(javaClass.simpleName, "xxx underContracts ${underContracts}")
         }
 
         addSource(appointmentList) { list ->
-            data.add(HomeSummary("${11}", "1", "1"))
+            val upcommingAppointments = list
+                .filter { it.s_year.toInt() >= currentYear }
+                .filter { it.s_month.toInt() >= currentMonth }
+                .filter { it.s_date.toInt() > currentDay }
 
+            Log.d(javaClass.simpleName, "xxx upcommingAppointments ${upcommingAppointments}")
         }
         value = data
     }

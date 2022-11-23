@@ -29,8 +29,8 @@ class AddAppointmentManager: AppCompatActivity() {
 
         binding.okButton.setOnClickListener {
             when {
-                TextUtils.isEmpty(binding.etTitle.text.toString()) -> Toast.makeText(this, "You must input HouseID", Toast.LENGTH_SHORT).show()
-                !viewModel.countHouse(binding.etTitle.text.toString()) -> Toast.makeText(this, "Please input valid HouseID. Please Check Home Page", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(binding.etHouseId.text.toString()) -> Toast.makeText(this, "You must input HouseID", Toast.LENGTH_SHORT).show()
+                !viewModel.countHouse(binding.etHouseId.text.toString()) -> Toast.makeText(this, "Please input valid HouseID. Please Check Home Page", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etLocation.text.toString()) -> Toast.makeText(this, "You must input location", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etNote.text.toString()) -> Toast.makeText(this, "You must input note", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etDeposit.text.toString()) -> Toast.makeText(this, "You must input deposit", Toast.LENGTH_SHORT).show()
@@ -40,7 +40,7 @@ class AddAppointmentManager: AppCompatActivity() {
 
                 else -> {
                     viewModel.addNewAppointment(
-                        binding.etTitle.text.toString(),
+                        binding.etHouseId.text.toString(),
                         binding.etLocation.text.toString(),
                         binding.etNote.text.toString(),
                         binding.etDeposit.text.toString(),

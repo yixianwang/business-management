@@ -11,12 +11,9 @@ import com.bignerdranch.android.businessmanagement.MainViewModel
 import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentDataBinding
 import com.bignerdranch.android.businessmanagement.model.Contract
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import java.util.*
 
 
@@ -81,7 +78,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 
     private fun setLineChartData(contractList: List<Contract>) {
         val titleList = contractList
-            .groupingBy { it.title }
+            .groupingBy { it.houseID }
             .eachSumBy { it.rent.toInt() }
             .keys.toList()
         Log.d(javaClass.simpleName, "titleList ${titleList}")
@@ -90,7 +87,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
         for (i in titleList.indices) {
             Log.d(javaClass.simpleName, "titleList ${i} ${titleList[i]}")
             val myEachLineData = contractList
-                .filter { it.title.toInt() == titleList[i].toInt() }
+                .filter { it.houseID.toInt() == titleList[i].toInt() }
                 .filter { it.s_year.toInt() == MainViewModel.currentYear }
                 .groupingBy { it.s_month }
                 .eachSumBy { it.rent.toInt() }
@@ -133,7 +130,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
     private fun setPieChart(contractList: List<Contract>) {
         val myPieData = contractList
             .filter { it.s_year.toInt() == MainViewModel.currentYear }
-            .groupingBy { it.title }
+            .groupingBy { it.houseID }
             .eachSumBy { it.rent.toInt() }
         Log.d(javaClass.simpleName, "myPieData ${myPieData}")
 

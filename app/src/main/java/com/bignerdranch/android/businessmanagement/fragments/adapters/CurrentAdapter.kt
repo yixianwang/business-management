@@ -18,7 +18,7 @@ class CurrentAdapter(private val viewModel: MainViewModel)
 
         override fun areContentsTheSame(oldItem: Contract, newItem: Contract): Boolean {
             return oldItem.firestoreID == newItem.firestoreID
-                    && oldItem.title == newItem.title
+                    && oldItem.houseID == newItem.houseID
                     && oldItem.location == newItem.location
                     && oldItem.rent == newItem.rent
                     && oldItem.s_year == newItem.s_year
@@ -39,7 +39,7 @@ class CurrentAdapter(private val viewModel: MainViewModel)
         fun bind(holder: VH, position: Int) {
             val contract = getItem(position)
             val binding = holder.rowCurrentBinding
-            binding.tvTitle.text = contract.title
+            binding.tvHouseId.text = contract.houseID
             binding.tvLocation.text = contract.location
             binding.tvRent.text = contract.rent
             binding.tvStart.text = contract.s_month + "/" + contract.s_date + "/" + contract.s_year

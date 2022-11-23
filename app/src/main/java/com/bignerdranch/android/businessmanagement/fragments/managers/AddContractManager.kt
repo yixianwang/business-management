@@ -26,8 +26,8 @@ class AddContractManager : AppCompatActivity() {
 
         binding.okButton.setOnClickListener {
             when {
-                TextUtils.isEmpty(binding.etTitle.text.toString()) -> Toast.makeText(this, "You must input title", Toast.LENGTH_SHORT).show()
-                !viewModel.countHouse(binding.etTitle.text.toString()) -> Toast.makeText(this, "Please input valid HouseID. Please Check Home Page", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(binding.etHouseId.text.toString()) -> Toast.makeText(this, "You must input title", Toast.LENGTH_SHORT).show()
+                !viewModel.countHouse(binding.etHouseId.text.toString()) -> Toast.makeText(this, "Please input valid HouseID. Please Check Home Page", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etLocation.text.toString()) -> Toast.makeText(this, "You must input location", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(binding.etRent.text.toString()) -> Toast.makeText(this, "You must input rent", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty("${binding.etStartDate.month + 1}/${binding.etStartDate.dayOfMonth}/${binding.etStartDate.year}") -> Toast.makeText(this, "You must input start date", Toast.LENGTH_SHORT).show()
@@ -39,7 +39,7 @@ class AddContractManager : AppCompatActivity() {
 
                 else -> {
                     viewModel.addNewContract(
-                        binding.etTitle.text.toString(),
+                        binding.etHouseId.text.toString(),
                         binding.etLocation.text.toString(),
                         binding.etRent.text.toString(),
 //                        "${binding.etStartDate.month + 1}/${binding.etStartDate.dayOfMonth}/${binding.etStartDate.year}",

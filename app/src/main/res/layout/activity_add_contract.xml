@@ -17,9 +17,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title" />
+            android:text="HouseID" />
         <EditText
-            android:id="@+id/et_title"
+            android:id="@+id/et_house_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

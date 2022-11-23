@@ -61,7 +61,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // tables
         viewModel.observeAllHouseList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "xxx all house list ${it}")
+//            Log.d(javaClass.simpleName, "xxx all house list ${it}")
         }
 
 

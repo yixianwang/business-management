@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ServerTimestamp
 
 
 data class Contract(
-    var title: String = "",
+    var houseID: String = "",
     var location: String = "",
     var rent: String = "",
     var s_year: String = "",

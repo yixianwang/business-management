@@ -18,7 +18,7 @@ class AppointmentAdapter(private val viewModel: MainViewModel)
 
         override fun areContentsTheSame(oldItem: Appointment, newItem: Appointment): Boolean {
             return oldItem.firestoreID == newItem.firestoreID
-                    && oldItem.title == newItem.title
+                    && oldItem.houseID == newItem.houseID
                     && oldItem.location == newItem.location
                     && oldItem.note == newItem.note
                     && oldItem.deposit == newItem.deposit
@@ -37,7 +37,7 @@ class AppointmentAdapter(private val viewModel: MainViewModel)
         fun bind(holder: VH, position: Int) {
             val appointment = getItem(position)
             val binding = holder.rowAppointmentBinding
-            binding.tvTitle.text = appointment.title
+            binding.tvHouseId.text = appointment.houseID
             binding.tvLocation.text = appointment.location
             binding.tvNote.text = appointment.note
             binding.tvDeposit.text = appointment.deposit

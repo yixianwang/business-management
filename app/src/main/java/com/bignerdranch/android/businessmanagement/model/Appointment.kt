@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 
 data class Appointment(
-    var title: String = "",
+    var houseID: String = "",
     var location: String = "",
     var note: String = "",
     var deposit: String = "",
