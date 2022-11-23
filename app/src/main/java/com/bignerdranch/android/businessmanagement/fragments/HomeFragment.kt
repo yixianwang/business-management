@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -36,17 +39,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = FragmentHomeBinding.bind(view)
 //        binding.etManageHouse.inputType = InputType.TYPE_NULL
 
-
-        viewModel.observeHomeTableData().observe(viewLifecycleOwner) {
-//            Log.d(javaClass.simpleName, "${it}")
-        }
-
-        viewModel.observeAllHouseList().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "xxx all houses: ${it}")
-        }
-
-
-
         // buttons
         binding.btnManageHouse.setOnClickListener {
             binding.homeTopLayout.isVisible = !binding.homeTopLayout.isVisible
@@ -63,6 +55,56 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.butRemove.setOnClickListener {
             viewModel.eraseHouse(binding.etManageHouse.text.toString())
+        }
+
+        // tables
+        val ll = binding.tlHome
+        viewModel.observeHomeTableData().observe(viewLifecycleOwner) {
+//            Log.d(javaClass.simpleName, "${it}")
+            for (i in 0 .. it.size - 1) {
+                val row = TableRow(context)
+                row.layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                )
+
+                val tv1 = TextView(context)
+                val tv2 = TextView(context)
+                val tv3 = TextView(context)
+
+                tv1.text = it[i].houseId
+                tv2.text = it[i].isUnderContractRightNow
+                tv3.text = it[i].upcomingAppointment
+
+
+                tv1.layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    2f
+                )
+
+                tv2.layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    4f
+                )
+
+                tv3.layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    4f
+                )
+
+                tv1.gravity = Gravity.CENTER_HORIZONTAL
+                tv2.gravity = Gravity.CENTER_HORIZONTAL
+                tv3.gravity = Gravity.CENTER_HORIZONTAL
+
+                row.addView(tv1)
+                row.addView(tv2)
+                row.addView(tv3)
+
+                ll.addView(row, -1)
+            }
         }
     }
 }

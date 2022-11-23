@@ -292,14 +292,17 @@ class MainViewModel: ViewModel() {
 
     // Table Data
     private var homeTableData = MediatorLiveData<List<HomeSummary>>().apply {
-        var count = "1"
+        var data = mutableListOf<HomeSummary>()
+        data.add(HomeSummary("1", "3", "4"))
+
         addSource(contractList) { list1 ->
-            count += "2"
+            data.add(HomeSummary("2", "3", "4"))
 
         }
         addSource(appointmentList) { list2 ->
-            count += "3"
-            value = listOf(HomeSummary(count, "3", "4"))
+//            value = data
+            data.add(HomeSummary("3", "3", "4"))
+            value = data
         }
     }
 
