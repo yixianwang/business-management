@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.bignerdranch.android.businessmanagement.model.*
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
@@ -298,19 +295,19 @@ class MainViewModel: ViewModel() {
             }
         }
 
-
+        var underContracts: Map<String, Int>
         addSource(contractList) { list ->
             // find all under contracts
-            val underContracts = list
-                .filter { it.s_year.toInt() <= currentYear }
-                .filter { currentYear <= it.e_year.toInt()}
-                .filter { it.s_month.toInt() <= currentMonth }
-                .filter { currentMonth <= it.e_month.toInt() }
-                .filter { it.s_date.toInt() <= currentDay }
-                .filter { currentDay <= it.e_date.toInt() }
-                .groupingBy { it.houseID }
-                .eachSumBy { it.duration.toInt() }
-            Log.d(javaClass.simpleName, "xxx underContracts ${underContracts}")
+            underContracts = list
+                    .filter { it.s_year.toInt() <= currentYear }
+                    .filter { currentYear <= it.e_year.toInt()}
+                    .filter { it.s_month.toInt() <= currentMonth }
+                    .filter { currentMonth <= it.e_month.toInt() }
+                    .filter { it.s_date.toInt() <= currentDay }
+                    .filter { currentDay <= it.e_date.toInt() }
+                    .groupingBy { it.houseID }
+                    .eachSumBy { it.duration.toInt() }
+            Log.d(javaClass.simpleName, "xxx underContracts ${count} ${underContracts}")
         }
 
         addSource(appointmentList) { list ->
@@ -328,6 +325,73 @@ class MainViewModel: ViewModel() {
         return homeTableData
     }
 
+    class TripleMediatorLiveData<F, S, T>(
+        firstLiveData: LiveData<F>,
+        secondLiveData: LiveData<S>,
+        thirdLiveData: LiveData<T>
+    ) : MediatorLiveData<Triple<F?, S?, T?>>() {
+        init {
+            addSource(firstLiveData) { firstLiveDataValue: F -> value = Triple(firstLiveDataValue, secondLiveData.value, thirdLiveData.value) }
+            addSource(secondLiveData) { secondLiveDataValue: S -> value = Triple(firstLiveData.value, secondLiveDataValue, thirdLiveData.value) }
+            addSource(thirdLiveData) { thirdLiveDataValue: T -> value = Triple(firstLiveData.value, secondLiveData.value, thirdLiveDataValue) }
+        }
+    }
+
+    private val switchMapLiveData: LiveData<List<HomeSummary>> = TripleMediatorLiveData(
+        allHouseList,
+        contractList,
+        appointmentList
+    ).switchMap { mediatorState ->
+        var count = 0
+        count = mediatorState.first?.size?.toInt() ?: 0
+
+        val underContracts = mediatorState.second?.let {
+            it
+                .filter { it.s_year.toInt() <= currentYear }
+                .filter { currentYear <= it.e_year.toInt()}
+                .filter { it.s_month.toInt() <= currentMonth }
+                .filter { currentMonth <= it.e_month.toInt() }
+                .filter { it.s_date.toInt() <= currentDay }
+                .filter { currentDay <= it.e_date.toInt() }
+                .groupingBy { it.houseID }
+                .eachSumBy { it.duration.toInt() }
+        }
+
+        val upcommingAppointment = mediatorState.third?.let {
+            it
+                .filter { it.s_year.toInt() >= currentYear }
+                .filter { it.s_month.toInt() >= currentMonth }
+                .filter { it.s_date.toInt() > currentDay }
+        }
+
+        val data = mutableListOf<HomeSummary>()
+
+
+        for (id in 1 .. count) {
+            upcommingAppointment
+                ?.filter { it.houseID == "${id}" }
+                ?.toMutableList()
+                ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
+
+            val firstUpCommingApp = upcommingAppointment?.get(0)
+            var upComingDate: String = ""
+            if (id == firstUpCommingApp?.houseID?.toInt()) {
+                upComingDate += firstUpCommingApp.s_month + "/"
+                upComingDate += firstUpCommingApp.s_date + "/"
+                upComingDate += firstUpCommingApp.s_year
+            }
+
+            data.add(HomeSummary("${id}", "${underContracts?.getOrDefault("${id}", -1) ?: 0 }", "${upComingDate}"))
+        }
+        
+        return@switchMap liveData {
+            emit(data)
+        }
+    }
+
+    fun observeSwitchMapLiveData(): LiveData<List<HomeSummary>> {
+        return switchMapLiveData
+    }
 }
 
 

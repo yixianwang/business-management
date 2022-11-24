@@ -115,5 +115,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
+        viewModel.observeSwitchMapLiveData().observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, "xxx ${it}")
+        }
+
     }
 }
