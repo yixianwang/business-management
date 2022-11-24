@@ -124,10 +124,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 ll.addView(row, -1)
             }
-
-
-
         }
-
     }
 }
