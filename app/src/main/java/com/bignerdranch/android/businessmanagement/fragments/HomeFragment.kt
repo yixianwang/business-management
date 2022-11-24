@@ -66,9 +66,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
 
-        val ll = binding.tlHome
         viewModel.observeHomeTableData().observe(viewLifecycleOwner) {
 //            Log.d(javaClass.simpleName, "${it}")
+        }
+
+        val ll = binding.tlHome
+        viewModel.observeSwitchMapLiveData().observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, "xxx ${it}")
             for (i in 0 .. it.size - 1) {
                 val row = TableRow(context)
                 row.layoutParams = TableRow.LayoutParams(
@@ -111,12 +115,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 row.addView(tv2)
                 row.addView(tv3)
 
-                ll.addView(row, -1)
+                ll.addView(row, i + 1)
             }
-        }
 
-        viewModel.observeSwitchMapLiveData().observe(viewLifecycleOwner) {
-            Log.d(javaClass.simpleName, "xxx ${it}")
+
+
         }
 
     }

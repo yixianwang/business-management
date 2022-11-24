@@ -353,11 +353,11 @@ class MainViewModel: ViewModel() {
                 .filter { currentMonth <= it.e_month.toInt() }
                 .filter { it.s_date.toInt() <= currentDay }
                 .filter { currentDay <= it.e_date.toInt() }
-                .groupingBy { it.houseID }
-                .eachSumBy { it.duration.toInt() }
+//                .groupingBy { it.houseID }
+//                .eachSumBy { it.duration.toInt() }
         }
 
-        val upcommingAppointment = mediatorState.third?.let {
+        val upcommingAppointments = mediatorState.third?.let {
             it
                 .filter { it.s_year.toInt() >= currentYear }
                 .filter { it.s_month.toInt() >= currentMonth }
@@ -368,12 +368,23 @@ class MainViewModel: ViewModel() {
 
 
         for (id in 1 .. count) {
-            upcommingAppointment
+            val underContractOrNot = underContracts
+                ?.filter { it.houseID == "${id}" }
+                ?.getOrNull(0)
+            var contractFinishDate: String = ""
+            if (id == underContractOrNot?.houseID?.toInt()) {
+                contractFinishDate += underContractOrNot.e_month + "/"
+                contractFinishDate += underContractOrNot.e_date + "/"
+                contractFinishDate += underContractOrNot.e_year
+            }
+
+
+            upcommingAppointments
                 ?.filter { it.houseID == "${id}" }
                 ?.toMutableList()
                 ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
 
-            val firstUpCommingApp = upcommingAppointment?.get(0)
+            val firstUpCommingApp = upcommingAppointments?.get(0)
             var upComingDate: String = ""
             if (id == firstUpCommingApp?.houseID?.toInt()) {
                 upComingDate += firstUpCommingApp.s_month + "/"
@@ -381,9 +392,9 @@ class MainViewModel: ViewModel() {
                 upComingDate += firstUpCommingApp.s_year
             }
 
-            data.add(HomeSummary("${id}", "${underContracts?.getOrDefault("${id}", -1) ?: 0 }", "${upComingDate}"))
+            data.add(HomeSummary("${id}", contractFinishDate, upComingDate))
         }
-        
+
         return@switchMap liveData {
             emit(data)
         }
