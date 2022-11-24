@@ -40,6 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        binding.etManageHouse.inputType = InputType.TYPE_NULL
 
         viewModel.fetchAllHousesList()
+        val ll = binding.tlHome
 
         // buttons
         binding.btnManageHouse.setOnClickListener {
@@ -48,10 +49,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.butAdd.setOnClickListener {
 //            Log.d(javaClass.simpleName, "xxx ${binding.etManageHouse.text}")
-            if (TextUtils.isEmpty(binding.etManageHouse.text.toString())) {
+            val getInput = binding.etManageHouse.text
+            Log.d(javaClass.simpleName, "xxx child count ${ll.childCount}")
+            if (TextUtils.isEmpty(getInput.toString())) {
                 Toast.makeText(context, "HouseID Cannot Be Empty", Toast.LENGTH_LONG).show()
+            } else if (getInput.toString().toInt() != ll.childCount) {
+                Toast.makeText(context, "HouseID has to be continuous", Toast.LENGTH_LONG).show()
             } else {
-                viewModel.insertHouse(binding.etManageHouse.text.toString())
+                viewModel.insertHouse(getInput.toString())
             }
         }
 
@@ -70,7 +75,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //            Log.d(javaClass.simpleName, "${it}")
         }
 
-        val ll = binding.tlHome
         viewModel.observeSwitchMapLiveData().observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, "xxx ${it}")
 
