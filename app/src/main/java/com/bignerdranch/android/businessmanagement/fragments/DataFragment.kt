@@ -91,7 +91,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
                 .filter { it.s_year.toInt() == MainViewModel.currentYear }
                 .groupingBy { it.s_month }
                 .eachSumBy { it.rent.toInt() }
-                .toList().sortedBy { (key, value) -> key}.toMap()
+                .toList().sortedBy { (key, value) -> key.toInt()}.toMap()
 
             Log.d(javaClass.simpleName, "myEachLineData ${myEachLineData}")
 
@@ -110,6 +110,7 @@ class DataFragment : Fragment(R.layout.fragment_data) {
 //            lineDataSet.color = Color.parseColor("#a35567")
             data.addDataSet(lineDataSet)
         }
+        Log.d(javaClass.simpleName, "data ${data.dataSets}")
 
         binding.lineChart.data = data
         binding.lineChart.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
