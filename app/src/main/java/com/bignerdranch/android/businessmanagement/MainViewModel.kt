@@ -344,6 +344,12 @@ class MainViewModel: ViewModel() {
     ).switchMap { mediatorState ->
         var count = 0
         count = mediatorState.first?.size?.toInt() ?: 0
+        val houseIDList = mutableListOf<String>()
+        mediatorState.first
+            ?.forEach { houseIDList.add(it.id) }
+
+        houseIDList.sort()
+        Log.d(javaClass.simpleName, "xxx houseIDList ${houseIDList}")
 
         val underContracts = mediatorState.second?.let {
             it
@@ -367,12 +373,13 @@ class MainViewModel: ViewModel() {
         val data = mutableListOf<HomeSummary>()
 
 
-        for (id in 1 .. count) {
+        for (i in 1 .. count) {
+            val id = houseIDList[i - 1]
             val underContractOrNot = underContracts
-                ?.filter { it.houseID == "${id}" }
+                ?.filter { it.houseID == id }
                 ?.getOrNull(0)
             var contractFinishDate: String = ""
-            if (id == underContractOrNot?.houseID?.toInt()) {
+            if (id == underContractOrNot?.houseID) {
                 contractFinishDate += underContractOrNot.e_month + "/"
                 contractFinishDate += underContractOrNot.e_date + "/"
                 contractFinishDate += underContractOrNot.e_year
@@ -380,19 +387,38 @@ class MainViewModel: ViewModel() {
 
 
             upcommingAppointments
-                ?.filter { it.houseID == "${id}" }
+                ?.filter { it.houseID == id }
                 ?.toMutableList()
                 ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
 
-            val firstUpCommingApp = upcommingAppointments?.get(0)
+            var firstUpCommingApp = upcommingAppointments?.get(0)
+            var temp_y: Int = 0x3f3f3f3f
+            var temp_m: Int = 0x3f3f3f3f
+            var temp_d: Int = 0x3f3f3f3f
+            upcommingAppointments
+                ?.forEach {
+                    if (it.houseID == id
+                        && it.s_year.toInt() < temp_y
+                        && it.s_month.toInt() < temp_m
+                        && it.s_date.toInt() < temp_d) {
+                        firstUpCommingApp = it
+                        temp_y = it.s_year.toInt()
+                        temp_m = it.s_month.toInt()
+                        temp_d = it.s_date.toInt()
+                    }
+                }
+            Log.d(javaClass.simpleName, "xxx firstUpCommingApp ${firstUpCommingApp}")
+
+
+
             var upComingDate: String = ""
-            if (id == firstUpCommingApp?.houseID?.toInt()) {
-                upComingDate += firstUpCommingApp.s_month + "/"
-                upComingDate += firstUpCommingApp.s_date + "/"
-                upComingDate += firstUpCommingApp.s_year
+            if (id == firstUpCommingApp?.houseID) {
+                upComingDate += firstUpCommingApp?.s_month + "/"
+                upComingDate += firstUpCommingApp?.s_date + "/"
+                upComingDate += firstUpCommingApp?.s_year
             }
 
-            data.add(HomeSummary("${id}", contractFinishDate, upComingDate))
+            data.add(HomeSummary(id, contractFinishDate, upComingDate))
         }
 
         return@switchMap liveData {

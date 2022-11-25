@@ -53,8 +53,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Log.d(javaClass.simpleName, "xxx child count ${ll.childCount}")
             if (TextUtils.isEmpty(getInput.toString())) {
                 Toast.makeText(context, "HouseID Cannot Be Empty", Toast.LENGTH_LONG).show()
-            } else if (getInput.toString().toInt() != ll.childCount) {
-                Toast.makeText(context, "HouseID has to be continuous", Toast.LENGTH_LONG).show()
+//            } else if (getInput.toString().toInt() != ll.childCount) {
+//                Toast.makeText(context, "HouseID has to be continuous", Toast.LENGTH_LONG).show()
             } else {
                 viewModel.insertHouse(getInput.toString())
             }
