@@ -87,7 +87,11 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeAppointmentList().observe(viewLifecycleOwner) {
-            val sortedAppointmentList = it.sortedWith(compareBy<Appointment> { it.houseID.toInt() })
+            val sortedAppointmentList = it
+                .sortedWith(compareBy<Appointment> { it.houseID.toInt() }
+                    .thenBy { it.s_year.toInt() }
+                    .thenBy { it.s_month.toInt() }
+                    .thenBy { it.s_date.toInt() })
 
             adapter.submitList(sortedAppointmentList)
         }

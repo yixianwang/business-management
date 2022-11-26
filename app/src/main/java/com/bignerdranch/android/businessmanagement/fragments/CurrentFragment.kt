@@ -96,7 +96,11 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeContractList().observe(viewLifecycleOwner) {
-            val sortedContrastList = it.sortedWith(compareBy<Contract> { it.houseID.toInt() })
+            val sortedContrastList = it
+                .sortedWith(compareBy<Contract> { it.houseID.toInt() }
+                    .thenBy { it.s_year.toInt() }
+                    .thenBy { it.s_month.toInt() }
+                    .thenBy { it.s_date.toInt() })
 
             adapter.submitList(sortedContrastList)
         }
