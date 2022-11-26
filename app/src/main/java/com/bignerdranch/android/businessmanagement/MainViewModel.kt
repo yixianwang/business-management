@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.bignerdranch.android.businessmanagement.model.*
+import com.google.firebase.auth.FirebaseAuth
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Font
@@ -430,6 +431,10 @@ class MainViewModel: ViewModel() {
 
     fun observeSwitchMapLiveData(): LiveData<List<HomeSummary>> {
         return switchMapLiveData
+    }
+
+    fun signOut() {
+        FirebaseAuth.getInstance().signOut()
     }
 }
 
