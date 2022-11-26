@@ -19,6 +19,8 @@ import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentAppointmentBinding
 import com.bignerdranch.android.businessmanagement.fragments.adapters.AppointmentAdapter
 import com.bignerdranch.android.businessmanagement.fragments.managers.AddAppointmentManager
+import com.bignerdranch.android.businessmanagement.model.Appointment
+import com.bignerdranch.android.businessmanagement.model.Contract
 
 class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
     companion object {
@@ -85,7 +87,9 @@ class AppointmentFragment : Fragment(R.layout.fragment_appointment) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeAppointmentList().observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            val sortedAppointmentList = it.sortedWith(compareBy<Appointment> { it.houseID.toInt() })
+
+            adapter.submitList(sortedAppointmentList)
         }
 
 

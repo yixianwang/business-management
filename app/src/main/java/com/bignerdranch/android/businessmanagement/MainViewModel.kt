@@ -73,6 +73,8 @@ class MainViewModel: ViewModel() {
 
     fun fetchContract() {
         dbHelp.fetchContract(contractList)
+//        contractList.value?.sortedWith(compareBy<Contract> { it.houseID.toInt() })
+//        Log.d(javaClass.simpleName, "xxxxx contractList ${contractList.value}")
     }
 
     fun observeContractList(): LiveData<List<Contract>> {

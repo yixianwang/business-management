@@ -19,6 +19,7 @@ import com.bignerdranch.android.businessmanagement.R
 import com.bignerdranch.android.businessmanagement.databinding.FragmentCurrentBinding
 import com.bignerdranch.android.businessmanagement.fragments.adapters.CurrentAdapter
 import com.bignerdranch.android.businessmanagement.fragments.managers.AddContractManager
+import com.bignerdranch.android.businessmanagement.model.Contract
 
 class CurrentFragment : Fragment(R.layout.fragment_current) {
     companion object {
@@ -95,7 +96,9 @@ class CurrentFragment : Fragment(R.layout.fragment_current) {
         initTouchHelper().attachToRecyclerView(rv)
 
         viewModel.observeContractList().observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            val sortedContrastList = it.sortedWith(compareBy<Contract> { it.houseID.toInt() })
+
+            adapter.submitList(sortedContrastList)
         }
 
 
