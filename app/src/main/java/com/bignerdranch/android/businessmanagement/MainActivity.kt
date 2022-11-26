@@ -12,6 +12,10 @@ import androidx.fragment.app.Fragment
 import com.bignerdranch.android.businessmanagement.databinding.ActivityMainBinding
 import com.bignerdranch.android.businessmanagement.fragments.*
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.runBlocking
 
@@ -22,6 +26,13 @@ class MainActivity : AppCompatActivity() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
     }
+
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
+    private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
+    private var showOneTapUI = true
+
 
     private val signInLauncher =
         registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
@@ -65,6 +76,18 @@ class MainActivity : AppCompatActivity() {
 
         AuthInit(viewModel, signInLauncher)
 
+        oneTapClient = Identity.getSignInClient(this)
+        signInRequest = BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.your_web_client_id))
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(true)
+                    .build())
+            .build()
+
 
 
     }
@@ -99,10 +122,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         viewModel.fetchContract()
         viewModel.fetchAppointment()
         viewModel.fetchAllHousesList()
     }
+
+
 }
