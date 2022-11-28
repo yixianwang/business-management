@@ -7,26 +7,23 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.bignerdranch.android.businessmanagement.model.*
 import com.google.firebase.auth.FirebaseAuth
-import com.itextpdf.text.Document
-import com.itextpdf.text.DocumentException
-import com.itextpdf.text.Font
-import com.itextpdf.text.PageSize
-import com.itextpdf.text.Paragraph
+import com.itextpdf.text.*
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 class MainViewModel: ViewModel() {
     companion object {
         @SuppressLint("SimpleDateFormat")
-        val sdf = SimpleDateFormat("yyyy.MM.dd")
-        var currentYear = sdf.format(Date()).split('.')[0].toInt()
-        var currentMonth = sdf.format(Date()).split('.')[1].toInt()
-        var currentDay = sdf.format(Date()).split('.')[2].toInt()
+        val sdf = SimpleDateFormat("MM/dd/yyyy")
+        val currentTime = sdf.format(Date())
+        var currentYear = sdf.format(Date()).split('/')[2].toInt()
+        var currentMonth = sdf.format(Date()).split('/')[0].toInt()
+        var currentDay = sdf.format(Date()).split('/')[1].toInt()
         var lastMonth = if (currentMonth == 1) 12 else currentMonth - 1
     }
     private var contractList = MutableLiveData<List<Contract>>()
@@ -336,7 +333,9 @@ class MainViewModel: ViewModel() {
         init {
             addSource(firstLiveData) { firstLiveDataValue: F -> value = Triple(firstLiveDataValue, secondLiveData.value, thirdLiveData.value) }
             addSource(secondLiveData) { secondLiveDataValue: S -> value = Triple(firstLiveData.value, secondLiveDataValue, thirdLiveData.value) }
+//            if (thirdLiveData.value != null) {
             addSource(thirdLiveData) { thirdLiveDataValue: T -> value = Triple(firstLiveData.value, secondLiveData.value, thirdLiveDataValue) }
+//            }
         }
     }
 
@@ -356,21 +355,40 @@ class MainViewModel: ViewModel() {
 
         val underContracts = mediatorState.second?.let {
             it
-                .filter { it.s_year.toInt() <= currentYear }
-                .filter { currentYear <= it.e_year.toInt()}
-                .filter { it.s_month.toInt() <= currentMonth }
-                .filter { currentMonth <= it.e_month.toInt() }
-                .filter { it.s_date.toInt() <= currentDay }
-                .filter { currentDay <= it.e_date.toInt() }
+                .filter {
+                    val startDate = sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
+                    Log.d(javaClass.simpleName, "xxxx startDate ${startDate} .. ${currentTime.compareTo(startDate) >= 0}")
+
+                    currentTime.compareTo(startDate) >= 0
+                }
+                .filter {
+                    val endDate = sdf.format(Date(it.e_month + "/" + it.e_date + "/" + it.e_year))
+                    Log.d(javaClass.simpleName, "xxxx endDate ${endDate} .. ${currentTime.compareTo(endDate) <= 0}")
+
+                    currentTime.compareTo(endDate) <= 0
+                }
+
+//                .filter { it.s_year.toInt() <= currentYear }
+//                .filter { currentYear <= it.e_year.toInt()}
+//                .filter { it.s_month.toInt() <= currentMonth }
+//                .filter { currentMonth <= it.e_month.toInt() }
+//                .filter { it.s_date.toInt() <= currentDay }
+//                .filter { currentDay <= it.e_date.toInt() }
+
 //                .groupingBy { it.houseID }
 //                .eachSumBy { it.duration.toInt() }
         }
 
+
         val upcommingAppointments = mediatorState.third?.let {
             it
-                .filter { it.s_year.toInt() >= currentYear }
-                .filter { it.s_month.toInt() >= currentMonth }
-                .filter { it.s_date.toInt() > currentDay }
+                .filter {
+                    val startDate = sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
+                    currentTime.compareTo(startDate) <= 0
+                }
+//                .filter { it.s_year.toInt() >= currentYear }
+//                .filter { it.s_month.toInt() >= currentMonth }
+//                .filter { it.s_date.toInt() > currentDay }
         }
 
         val data = mutableListOf<HomeSummary>()
@@ -395,20 +413,25 @@ class MainViewModel: ViewModel() {
                 ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
 
             var firstUpCommingApp = upcommingAppointments?.get(0)
-            var temp_y: Int = 0x3f3f3f3f
-            var temp_m: Int = 0x3f3f3f3f
-            var temp_d: Int = 0x3f3f3f3f
+            val temp_y = "2090"
+            val temp_m = "12"
+            val temp_d = "15"
+            var tempMaxDate = sdf.format( Date(temp_m + "/" + temp_d + "/" + temp_y))
+            Log.d(javaClass.simpleName, "xxxx xxxxaa ${upcommingAppointments}")
+
             upcommingAppointments
                 ?.forEach {
-                    if (it.houseID == id
-                        && it.s_year.toInt() < temp_y
-                        && it.s_month.toInt() < temp_m
-                        && it.s_date.toInt() < temp_d) {
-                        firstUpCommingApp = it
-                        temp_y = it.s_year.toInt()
-                        temp_m = it.s_month.toInt()
-                        temp_d = it.s_date.toInt()
+                    Log.d(javaClass.simpleName, "xxxx bbb ${it.houseID} .. ")
+                    if (it.houseID == id) {
+                        if (tempMaxDate.compareTo(sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))) > 0) {
+                            firstUpCommingApp = it
+                            tempMaxDate = sdf.format( Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
+                        }
                     }
+//                        &&  {
+//                            firstUpCommingApp = it
+//                            tempMaxDate = sdf.format( Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
+//                    }
                 }
             Log.d(javaClass.simpleName, "xxx firstUpCommingApp ${firstUpCommingApp}")
 
