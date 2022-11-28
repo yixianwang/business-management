@@ -386,6 +386,9 @@ class MainViewModel: ViewModel() {
                     val startDate = sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
                     currentTime.compareTo(startDate) <= 0
                 }
+
+
+
 //                .filter { it.s_year.toInt() >= currentYear }
 //                .filter { it.s_month.toInt() >= currentMonth }
 //                .filter { it.s_date.toInt() > currentDay }
@@ -406,34 +409,37 @@ class MainViewModel: ViewModel() {
                 contractFinishDate += underContractOrNot.e_year
             }
 
-
-            upcommingAppointments
+            val tempList = upcommingAppointments
                 ?.filter { it.houseID == id }
                 ?.toMutableList()
-                ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
 
-            var firstUpCommingApp = upcommingAppointments?.get(0)
+            tempList?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
+
+//            upcommingAppointments
+//                ?.filter { it.houseID == id }
+//                ?.toMutableList()
+//                ?.sortWith(compareBy<Appointment> { it.s_year.toInt() }.thenBy { it.s_month.toInt() }.thenBy { it.s_date.toInt() })
+
+            var firstUpCommingApp = tempList?.getOrNull(0)
+            Log.d(javaClass.simpleName, "xxxxxxee ")
+
+            Log.d(javaClass.simpleName, "xxxxxbb temp ${tempList?.size}")
+
             val temp_y = "2090"
             val temp_m = "12"
             val temp_d = "15"
             var tempMaxDate = sdf.format( Date(temp_m + "/" + temp_d + "/" + temp_y))
-            Log.d(javaClass.simpleName, "xxxx xxxxaa ${upcommingAppointments}")
 
-            upcommingAppointments
+
+            tempList
                 ?.forEach {
-                    Log.d(javaClass.simpleName, "xxxx bbb ${it.houseID} .. ")
-                    if (it.houseID == id) {
-                        if (tempMaxDate.compareTo(sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))) > 0) {
-                            firstUpCommingApp = it
-                            tempMaxDate = sdf.format( Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
-                        }
+                    if (tempMaxDate.compareTo(sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))) > 0) {
+                        firstUpCommingApp = it
+                        tempMaxDate = sdf.format( Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
                     }
-//                        &&  {
-//                            firstUpCommingApp = it
-//                            tempMaxDate = sdf.format( Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
-//                    }
                 }
-            Log.d(javaClass.simpleName, "xxx firstUpCommingApp ${firstUpCommingApp}")
+            Log.d(javaClass.simpleName, "xxxxxxcc firstUpCommingApp ${firstUpCommingApp}")
+
 
 
 
@@ -443,8 +449,8 @@ class MainViewModel: ViewModel() {
                 upComingDate += firstUpCommingApp?.s_date + "/"
                 upComingDate += firstUpCommingApp?.s_year
             }
-
             data.add(HomeSummary(id, contractFinishDate, upComingDate))
+            Log.d(javaClass.simpleName, "xxxxxxdd ${i} / ${count}")
         }
 
         return@switchMap liveData {
