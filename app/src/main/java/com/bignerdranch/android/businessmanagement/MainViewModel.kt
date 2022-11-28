@@ -299,12 +299,26 @@ class MainViewModel: ViewModel() {
         addSource(contractList) { list ->
             // find all under contracts
             underContracts = list
-                    .filter { it.s_year.toInt() <= currentYear }
-                    .filter { currentYear <= it.e_year.toInt()}
-                    .filter { it.s_month.toInt() <= currentMonth }
-                    .filter { currentMonth <= it.e_month.toInt() }
-                    .filter { it.s_date.toInt() <= currentDay }
-                    .filter { currentDay <= it.e_date.toInt() }
+//                    .filter { it.s_year.toInt() <= currentYear }
+//                    .filter { currentYear <= it.e_year.toInt()}
+//                    .filter { it.s_month.toInt() <= currentMonth }
+//                    .filter { currentMonth <= it.e_month.toInt() }
+//                    .filter { it.s_date.toInt() <= currentDay }
+//                    .filter { currentDay <= it.e_date.toInt() }
+
+                    .filter {
+                        val startDate = sdf.format(Date(it.s_month + "/" + it.s_date + "/" + it.s_year))
+                        Log.d(javaClass.simpleName, "xxxx startDate ${startDate} .. ${currentTime.compareTo(startDate) >= 0}")
+
+                        currentTime.compareTo(startDate) >= 0
+                    }
+                    .filter {
+                        val endDate = sdf.format(Date(it.e_month + "/" + it.e_date + "/" + it.e_year))
+                        Log.d(javaClass.simpleName, "xxxx endDate ${endDate} .. ${currentTime.compareTo(endDate) <= 0}")
+
+                        currentTime.compareTo(endDate) <= 0
+                    }
+
                     .groupingBy { it.houseID }
                     .eachSumBy { it.duration.toInt() }
             Log.d(javaClass.simpleName, "xxx underContracts ${count} ${underContracts}")
