@@ -95,9 +95,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val tv3 = TextView(context)
 
                 tv1.text = it[i].houseId
-                tv2.text = it[i].isUnderContractRightNow
-                tv3.text = it[i].upcomingAppointment
+                if (it[i].isUnderContractRightNow == "") {
+                    tv2.text = "No"
+                } else {
+                    tv2.text = it[i].isUnderContractRightNow
+                }
+                if (it[i].upcomingAppointment == "") {
+                    tv3.text = "None"
+                } else {
+                    tv3.text = it[i].upcomingAppointment
+                }
 
+                Log.d(javaClass.simpleName, "aaa ${it[i].houseId}, ${it[i].isUnderContractRightNow == ""}")
 
                 tv1.layoutParams = TableRow.LayoutParams(
                     TableRow.LayoutParams.WRAP_CONTENT,
